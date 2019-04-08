@@ -192,7 +192,7 @@ class HeadshotHeader extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar className={classes.appBar}>
             <Hidden only={['xl', 'lg']}>
               <IconButton
                 color="inherit"
@@ -207,12 +207,12 @@ class HeadshotHeader extends Component {
               <Typography
                 className={classNames(classes.brandTitle, classes.topbarDynamicShow)}
               >
-                {'Headshot'}
+                {'REPRODUCTION'}
               </Typography>
-              <img className={classes.brandImage}
+              {/* <img className={classes.brandImage}
                 alt="Logo"
                 src={require('../../images/logo.jpg')} 
-              />
+              /> */}
             </Hidden>
 
             <div className={classes.grow}/>
@@ -220,7 +220,7 @@ class HeadshotHeader extends Component {
             <Hidden only={['md', 'sm', 'xs']}>
               <div className={classNames(classes.topbarDynamicShow, )}>
                 {this.renderTopbarMenuItem('HOME', '/')}
-                {this.renderTopbarMenuItem('PRINTING', {pathname: '/production', state: {productionId: 2}})}
+                {this.renderTopbarMenuItem('PRINTING', '/order-prints')}
                 {this.renderTopbarMenuItem('RETOUCHING', '/retouching')}
                 {this.renderTopbarMenuItem('VIDEO SERVICES', '/video-services')}
                 {this.renderTopbarMenuItem('FIND A PHOTOGRAPHER', '/find-photographer')}

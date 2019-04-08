@@ -52,18 +52,11 @@ class SelectQuantity extends Component {
     }
 
     return (
-      <Grid container spacing={16} alignItems="center">
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { production.description }
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
+      <Grid container spacing={16} alignItems="center" className={classNames(classes.swipeableGridContainer, )}>
+        <Grid item xs={6}>
           <Typography className={classNames(classes.itemTitleText)}>
-          { `Quantity` }
-        </Typography>
-        </Grid>
-        <Grid item xs={8}>
+            { `Quantity` }
+          </Typography>
           <FormControl variant="outlined" className={classes.formControl}>
             <Select
               value={quantityId}
@@ -73,6 +66,7 @@ class SelectQuantity extends Component {
                   name="quantityId"
                 />
               }
+              color="primary"
             >
               { productionQuantities }
             </Select>

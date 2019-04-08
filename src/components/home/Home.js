@@ -65,35 +65,34 @@ class Home extends Component {
                       </Typography> 
                     </Grid>
                     <Grid item xs={12}>
-                      <Link to={{pathname: '/production', state: {productionId: 2}}} className={classNames(classes.generalLink,)}>
+                      <div className={classNames(classes.centerText, )}>
+                        <Link to={{pathname: '/order-prints'}} className={classNames(classes.generalLink,)}>
+                          <Button
+                            variant="outlined"
+                            color="white"
+                            size="samll"
+                            className={classes.homeButton}
+                          >
+                            {'Order Print'}
+                          </Button>
+                        </Link>
                         <Button
                           variant="outlined"
                           color="white"
                           size="samll"
                           className={classes.homeButton}
-                          // onClick={this.handleBack}
                         >
-                          {'Order Print'}
+                          {'Order Retouching'}
                         </Button>
-                      </Link>
-                      <Button
-                        variant="outlined"
-                        color="white"
-                        size="samll"
-                        className={classes.homeButton}
-                        // onClick={this.handleBack}
-                      >
-                        {'Order Retouching'}
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="white"
-                        size="samll"
-                        className={classes.homeButton}
-                        // onClick={this.handleBack}
-                      >
-                        {'Order Video Services'}
-                      </Button> 
+                        <Button
+                          variant="outlined"
+                          color="white"
+                          size="samll"
+                          className={classes.homeButton}
+                        >
+                          {'Order Video Services'}
+                        </Button>
+                      </div>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -106,27 +105,6 @@ class Home extends Component {
           </div>
           
       );
-
-        // return (
-        //     <Paper className={classes.containerPaper}>
-        //         <Grid container spacing={24}>
-        //             <Grid item xs={12}>
-        //                 <Typography className={classNames(classes.generalDescriptionText, classes.bold, classes.inlineText)}>
-        //                     {`Reproductions is the leading headshot retouching and printing company, serving actors and other performing artists nationwide. 
-        //                     With offices in NY and LA, Reproductions has set the standard for high quality photographic printing 
-        //                     and superior level of customer service since 1991. From choosing a photographer to processing a print order, 
-        //                     Reproductions ensures the client experience is seamless. For more information, visit www.reproductions.com.`}
-        //                 </Typography>
-        //             </Grid>
-        //             <Grid item xs={12}><Spacer size={5}/></Grid>
-        //             <Grid item xs={12}>
-        //                 <Grid container spacing={24}>
-        //                     {productionImages}
-        //                 </Grid>
-        //             </Grid>
-        //         </Grid>
-        //     </Paper>
-        // );
     }
 }
 

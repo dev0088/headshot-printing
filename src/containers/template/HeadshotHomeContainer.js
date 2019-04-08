@@ -20,7 +20,6 @@ class HeadshotHomeContainer extends Component {
               {children}
             </Grid>
           </Grid>
-
         </div>
       </MuiThemeProvider>
     );
