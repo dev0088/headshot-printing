@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -16,7 +16,7 @@ import Title from './Title';
 import HeadshotContainer from './template/HeadshotContainer';
 import HeadshotImageEditorContainer from './template/HeadshotImageEditorContainer';
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 const { store, persistor } = configureStore(history);
 

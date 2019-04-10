@@ -4,24 +4,24 @@ import { getToken, getUserID } from "../service/storage";
 class CommonAPI {
 
 static processResponse(response, handleResponse) {
-  console.log('=== response: ', response);
+  // console.log('=== response: ', response);
   if(response.error) {
-    console.log('error: ', response.error);
+    // console.log('error: ', response.error);
     if (handleResponse) handleResponse(response.error, true);
   }
   else {
     if (response){
-      console.log('success: ', response);
+      // console.log('success: ', response);
       if (handleResponse) handleResponse(response, false);
     } else {
-      console.log('error: ', response);
+      // console.log('error: ', response);
       if (handleResponse) handleResponse(response.error, true);
     }
   }
 }
 
 static processRequest(url, method, data, handleResponse) {
-  console.log('==== processRequest: ', url, data);
+  // console.log('==== processRequest: ', url, data);
   let params = {
     method: method,
     headers: {
@@ -49,7 +49,7 @@ static processRequest(url, method, data, handleResponse) {
 
 
 static processRequestWithFile(url, method, data, handleResponse) {
-  console.log('==== processRequestWithFile: ', url, data);
+  // console.log('==== processRequestWithFile: ', url, data);
   let params = {
     method: method,
     headers: {
@@ -70,13 +70,13 @@ static processRequestWithFile(url, method, data, handleResponse) {
       this.processResponse(response, handleResponse);
     })
     .catch(error => {
-      console.log('error: ', error);
+      // console.log('error: ', error);
       if (handleResponse) handleResponse(error, true);
     })
 }
 
 static processRequestWithToken(url, method, data, handleResponse) {
-  console.log('==== processRequest: ', url, data);
+  // console.log('==== processRequest: ', url, data);
   let parameters = {
     method: method,
     headers: {
@@ -96,7 +96,7 @@ static processRequestWithToken(url, method, data, handleResponse) {
       this.processResponse(response, handleResponse);
     })
     .catch(error => {
-      console.log('error: ', error);
+      // console.log('error: ', error);
       handleResponse(error, true);
     })
   }

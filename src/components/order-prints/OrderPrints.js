@@ -183,7 +183,7 @@ class OrderPrints extends Component {
   render() {
     const { classes } = this.props;
     const { loading, production, step, quantityId, headshot, paid } = this.state;
-    console.log('==== production: ', this);
+    // console.log('==== production: ', this);
     let amount = 0;
     let price = 0;
     let fileName = headshot ?  headshot.file_name : '';
@@ -203,7 +203,7 @@ class OrderPrints extends Component {
 
     if (!(production && production.production_quantities)) {
       return (
-        <Paper className={classes.containerPaper} center>
+        <Paper className={classes.containerPaper} center="true">
           <CircularProgress size={40} thickness={5} />
         </Paper>
       );
@@ -211,66 +211,68 @@ class OrderPrints extends Component {
     return (
       <div>
         {/* <div className={classNames(classes.orderPrintsSteperLayout)}> */}
-        <Grid container spacing={24} className={classNames(classes.orderPrintsSteperLayout, )}>
-          <Grid item lg={4} md={3} sm={12} xs={12}/>
-          <Grid item lg={7} md={8} sm={12} xs={12}>
-            <Grid container spacing={16} className={classNames(classes.steperGridContainer)}>
-              <Grid item xs={6}>
-                <Typography className={classNames(classes.pageTitleText, classes.bold)}>
-                  {`Order Printing`}
-                </Typography>
-              </Grid>
-              <Grid item xs={6} className={classes.rightText}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="samll"
-                  disabled={step === 0}
-                  className={classes.nextButton}
-                  onClick={this.handleBack}
-                >
-                  { 'Back' }
-                </Button>
-                {
-                  ((step === appUtils.getSteps().length - 1) && !paid) ? (
-                    <StripeCheckoutButton 
-                      headshot={headshot} 
-                      amount={price} 
-                      onCheckout={this.handleCheckout} 
-                      onPayment={this.handlePayment}
-                    />
-                  ) : (
-                    <Button
-                    variant="contained"
+        <div className={classNames(classes.orderContainer)}>
+          <Grid container className={classNames(classes.orderPrintsSteperLayout, )}>
+            <Grid item lg={1} md={1} sm={12} xs={12}/>
+            <Grid item lg={10} md={10} sm={12} xs={12}>
+              <Grid container className={classNames(classes.steperGridContainer)}>
+                <Grid item xs={6}>
+                  <Typography className={classNames(classes.pageTitleText, classes.bold, classes.whiteImportant)}>
+                    {`Order Printing`}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} className={classes.rightText}>
+                  <Button
+                    variant="outlined"
                     color="primary"
-                    size="samll"
+                    size="small"
+                    disabled={step === 0}
                     className={classes.nextButton}
-                    onClick={this.handleNext}
+                    onClick={this.handleBack}
                   >
-                    { paid ? 'Finish' : 'Next' }
+                    { 'Back' }
                   </Button>
-                  )
-                }
+                  {
+                    ((step === appUtils.getSteps().length - 1) && !paid) ? (
+                      <StripeCheckoutButton 
+                        headshot={headshot} 
+                        amount={price} 
+                        onCheckout={this.handleCheckout} 
+                        onPayment={this.handlePayment}
+                      />
+                    ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      className={classes.nextButton}
+                      onClick={this.handleNext}
+                    >
+                      { paid ? 'Finish' : 'Next' }
+                    </Button>
+                    )
+                  }
+                </Grid>
+                <Grid item xs={12}>
+                  <ProductionSteper step={step} onChangeStep={this.handleChangeStep} />
+                </Grid>
+                {/* <Grid item xs={12}>
+                  { this.renderStepForm() }
+                </Grid> */}
               </Grid>
-              <Grid item xs={12}>
-                <ProductionSteper step={step} onChangeStep={this.handleChangeStep} />
-              </Grid>
-              {/* <Grid item xs={12}>
-                { this.renderStepForm() }
-              </Grid> */}
+            </Grid>
+            <Grid item lg={1} md={1} sm={12} xs={12}/>
+          </Grid>
+
+          <Grid 
+            container direction="column" 
+            justify="center" alignItems="center" 
+            className={classNames(classes.orderPrintsSteperBody, )}
+          >
+            <Grid item xs={12}>
+              { this.renderStepForm() }
             </Grid>
           </Grid>
-          <Grid item lg={1} md={1} sm={12} xs={12}/>
-        </Grid>
-
-        <Grid container spacing={24} direction="colum" justify="center" alignItems="center" className={classNames(classes.orderPrintsSteperLayout, )}>
-          <Grid item xs={12}>
-            { this.renderStepForm() }
-          </Grid>
-        </Grid>
-        <div className={classNames(classes.homeBackgroundImageContainer, )}>
-          <div style={{backgroundColor: '#000000'}} />
-          <img src={require('images/background.jpg')} alt="home background" className={classNames(classes.homeBackgroundImage, )}/>
         </div>
       </div>
     );

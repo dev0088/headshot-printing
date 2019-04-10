@@ -7,13 +7,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Paper from '@material-ui/core/Paper';
-import ImageLoader from 'react-loading-image';
+// import CircularProgress from '@material-ui/core/CircularProgress';
+// import Paper from '@material-ui/core/Paper';
+// import ImageLoader from 'react-loading-image';
 import HeadshotAPI from 'apis/headshotAPIs'
 import { materialStyles } from 'styles/material/index';
-import Spacer from '../common/material/Spacer';
-import * as appUtils from 'utils/appUtils';
+// import Spacer from '../common/material/Spacer';
+// import * as appUtils from 'utils/appUtils';
 import * as productionActions from 'actions/productionActions';
 
 
@@ -39,7 +39,7 @@ class Home extends Component {
 
     render() {
         const { classes } = this.props;
-        const { loading, productions } = this.state;
+        const { productions } = this.state;
         
         return (
           <div>
