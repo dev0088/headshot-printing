@@ -15,6 +15,8 @@ import ProductionSteper from './ProductionSteper';
 import SelectQuantity from './SelectQuantity';
 import ProductionUserInfo from './ProductionUserInfo';
 import ProductionReview from './ProductionReview';
+import ProductionOrder from './ProductionOrder';
+import ProductProof from './ProductProof';
 import StripeCheckoutButton from './stripe/StripeCheckoutButton';
 import HeadshotAPI from 'apis/headshotAPIs';
 import Spacer from '../common/material/Spacer';
@@ -30,7 +32,7 @@ class OrderPrints extends Component {
     quantityId: null,
     order: null,
     step: 0,
-    hasImage: false,
+    // hasImage: false,
     uploadImageUrl: null,
     fileName: '',
     email: '',
@@ -73,7 +75,7 @@ class OrderPrints extends Component {
   }
 
   handleChange = (name, value) => {
-    console.log(name, value);
+    // console.log(name, value);
     this.setState({[name]: value});
   }
 
@@ -155,7 +157,7 @@ class OrderPrints extends Component {
 
   renderStepForm = () => {
     const { classes } = this.props;
-    const { production, step, order, quantityId, hasImage } = this.state;
+    const { production, step, order, quantityId, uploadImageUrl } = this.state;
     return (
       
         production ? (
@@ -171,8 +173,10 @@ class OrderPrints extends Component {
                 order={order}
                 onChangeOrder={this.handleChangeOrder}
               />
-              <ProductionUserInfo hasImage={hasImage} onChange={this.handleChange} />
-              <ProductionReview />
+              <ProductionUserInfo onChange={this.handleChange} />
+              <ProductionReview photo={uploadImageUrl} onChange={this.handleChange} />
+              <ProductionOrder onChange={this.handleChange} />
+              <ProductProof data={this.state}/>
             </SwipeableViews>
           ) : (
             <div/>

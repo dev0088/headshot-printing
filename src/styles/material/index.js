@@ -632,17 +632,93 @@ export const materialStyles = theme => ({
     alignItems: 'center',
     height: 300,
   },
-  itemTitleImage: {
+  itemLayoutImage: {
     border: '1px solid #222',
     padding: 8,
     marginBottom: 15,
+    position: 'relative',
+    '& img': {
+      width: '100%',
+      maxHeight: 200,
+    }
+  },
+  itemLayoutImageName: {
+    position: 'absolute',
+    bottom: 0,
+    fontSize: 8,
+  },
+  itemRealImage: {
+    border: '1px solid #222',
+    padding: '30px 8px',
+    marginBottom: 15,
+    position: 'relative',
+    '& img': {
+      width: '100%',
+      maxHeight: 200,
+    }
+  },
+  itemRealImageName: {
+    position: 'relative',
+    bottom: 10,
+    fontSize: 16,
   },
   noMargin: {
     margin: 0,
   },
   colorBlack: {
     color: theme.palette.black.main,
-  }
+  },
+  customizeTitle: {
+    fontSize: 20,
+  },
+  customizeDescription: {
+    fontSize: 12,
+  },
+  customizeTextLabel: {
+    fontSize: 14,
+  },
+  flexContainer: {
+    display: 'flex',
+    minHeight: 56,
+  },
+  descriptionContainer: {
+    padding: 20,
+  },
+  formTextControl: {
+    minWidth: 'initial',
+  },
+  colorCustomizeTitle: {
+    alignSelf: 'center',
+    color: '#218fff',
+    fontSize: 14,
+    '& > label': {
+      marginLeft: 0,
+    }
+  },
+  alignItemCenter: {
+    alignItems: 'center',
+  },
+  colorTitle: {
+    color: '#4e321f',
+  },
+  additionalContainer: {
+
+  },
+  filePathContainer: {
+    display: 'flex',
+    position: 'relative',
+  },
+  pathRemove: {
+    position: 'absolute',
+    textAlign: 'right',
+  },
+  totalPrice: {
+    textAlign: 'right',
+    marginRight: 0,
+    fontSize: 20,
+    fontWeight: '600',
+    marginTop: 20,
+  },
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   

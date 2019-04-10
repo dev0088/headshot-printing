@@ -54,6 +54,7 @@ class ProductionUserInfo extends Component {
     let file = Object.assign({}, files[0]);
     file.preview = URL.createObjectURL(files[0]);
     this.setState({ file: file });
+    this.props.onChange('uploadImageUrl', file);
   }
 
   onRemovePreview = () => {
@@ -62,58 +63,54 @@ class ProductionUserInfo extends Component {
 
   render = () => {
     const { production, classes } = this.props;
-    const { hasImage, fileName, email, file } = this.state;
+    const { fileName, email, file } = this.state;
     return (
       <Grid container alignItems="center">
         <Grid item sm={1} xs={2} />
         <Grid item sm={3} xs={6} className={classNames(classes.swipeableGridContainer, )}>
-          {hasImage ? (
-            <div />
-          ) : (
-            <React.Fragment>
-              <Grid item xs={12}>
-                <Typography className={classNames(classes.itemTitleText, classes.colorBlack)}>
-                  { `Do we have your iamge because we don't` }
-                </Typography>
-              </Grid>
-              <Grid item xs={12} >
-                {file && (
-                  <Grid item xs={12} className={classNames(classes.previewContainer)}>
-                    <img
-                      alt="Preview"
-                      key={file.preview}
-                      src={file.preview}
-                      className={classNames(classes.previewStyle)}
-                    />
-                    <div className={classNames(classes.previewClose)} onClick={this.onRemovePreview}>
-                      <CloseIcon className={classNames(classes.previewCloseIcon)} />
+          <React.Fragment>
+            <Grid item xs={12}>
+              <Typography className={classNames(classes.itemTitleText, classes.colorBlack)}>
+                { `Do we have your iamge because we don't` }
+              </Typography>
+            </Grid>
+            <Grid item xs={12} >
+              {file && (
+                <Grid item xs={12} className={classNames(classes.previewContainer)}>
+                  <img
+                    alt="Preview"
+                    key={file.preview}
+                    src={file.preview}
+                    className={classNames(classes.previewStyle)}
+                  />
+                  <div className={classNames(classes.previewClose)} onClick={this.onRemovePreview}>
+                    <CloseIcon className={classNames(classes.previewCloseIcon)} />
+                  </div>
+                </Grid>
+              )}
+              <Dropzone 
+                ref={this.dropzoneRef}
+                accept="image/*"
+                maxFiles={1}
+                onDrop={this.onPreviewDrop}
+              >
+                {({getRootProps, getInputProps}) => (
+                  <div className={classNames(classes.addImageContainer)} {...getRootProps()}>
+                    <div className={classNames(classes.addImageIcon)}>
+                      <AddIcon className={classes.largeIcon} />
                     </div>
-                  </Grid>
+                    <Typography className={classNames(classes.addImageText, classes.colorBlack)}>
+                      { `Add your file` }
+                    </Typography>
+                    <input {...getInputProps()} />
+                  </div>
                 )}
-                <Dropzone 
-                  ref={this.dropzoneRef}
-                  accept="image/*"
-                  maxFiles={1}
-                  onDrop={this.onPreviewDrop}
-                >
-                  {({getRootProps, getInputProps}) => (
-                    <div className={classNames(classes.addImageContainer)} {...getRootProps()}>
-                      <div className={classNames(classes.addImageIcon)}>
-                        <AddIcon className={classes.largeIcon} />
-                      </div>
-                      <Typography className={classNames(classes.addImageText, classes.colorBlack)}>
-                        { `Add your file` }
-                      </Typography>
-                      <input {...getInputProps()} />
-                    </div>
-                  )}
-                </Dropzone>
-              </Grid>
-            </React.Fragment>
-          )}
+              </Dropzone>
+            </Grid>
+          </React.Fragment>
           <Grid item xs={12}>
             <Typography className={classNames(classes.itemSubTitleText, classes.colorBlack)}>
-              { `Enther file name or description` }
+              { `Enter file name or description` }
             </Typography>
           </Grid>
           <Grid item xs={12}>

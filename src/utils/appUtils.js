@@ -19,31 +19,55 @@ export const reviewLayout = [
   {
     title: 'Vertical With Border',
     photo: 'photo1.jpg',
-    id: '1',
+    id: '0',
+    style: {
+      textAlign: 'right',
+      right: 8,
+    },
   },
   {
     title: 'Horizontal with Borders',
     photo: 'photo2.jpg',
-    id: '2',
+    id: '1',
+    style: {
+      textAlign: 'left',
+      left: 8,
+    },
   },
   {
     title: 'Horizontal on Vertical Border',
     photo: 'photo3.jpg',
-    id: '3',
+    id: '2',
+    style: {
+      textAlign: 'left',
+      left: 8,
+    },
   },
   {
     title: 'Vertical Borderless',
     photo: 'photo4.jpg',
-    id: '4',
+    id: '3',
+    style: {
+      textAlign: 'left',
+      left: 8,
+    },
   },
   {
     title: 'Horizontal Borderless',
     photo: 'photo5.jpg',
-    id: '5',
+    id: '4',
+    style: {
+      textAlign: 'right',
+      right: 8,
+    },
   },
   {
     title: 'Horizontal on Vertical Bleed',
     photo: 'photo6.jpg',
-    id: '6',
+    id: '5',
+    style: {
+      textAlign: 'left',
+      left: 8,
+    },
   }
 ]
