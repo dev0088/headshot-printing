@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+
+  headshot_printing:
+    container_name: headshot-printing
+    # environment:
+    #   - NODE_ENV=$NODE_ENV
+    #   - NODE_PATH = $NODE_PATH
+    #   - REACT_APP_API_SERVER = $REACT_APP_API_SERVER
+    #   - REACT_APP_API_URL = $REACT_APP_API_URL
+    
+    build:
+      context: .      
+      args: 
+        NODE_ENV: development
+        NODE_PATH: src/
+        REACT_APP_API_SERVER: http://www.headshotprinting.net
+        REACT_APP_API_URL: http://www.headshotprinting.net/api/v1
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/headshot_printing'
+    ports:
+      - '3000:3000'
