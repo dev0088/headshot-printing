@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -7,14 +7,17 @@ import configureStore from './store';
 import Routes from './routes/index';
 import './App.css';
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 const { store, persistor } = configureStore(history);
 
 class App extends Component {
-  getInitialState() {
-    return { prevPath: '' }
+  state = {
+    prevPath: ''
   }
+  // getInitialState() {
+  //   return { prevPath: '' }
+  // }
 
   componentDidMount(){
     document.title = "Headshot Printing";

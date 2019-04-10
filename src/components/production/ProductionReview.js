@@ -122,7 +122,7 @@ class ProductionReview extends Component {
             className={classes.productionGalleryImage}
             src={production.headshot.cloudinary_image_url}
             loading={() => <CircularProgress size={20} thickness={5} />}
-            error={() => <img src={require("../../images/missing.png")} />} 
+            error={() => <img src={require("../../images/missing.png")} alt="missing"/>} 
           />
         </Grid>
       </Grid>

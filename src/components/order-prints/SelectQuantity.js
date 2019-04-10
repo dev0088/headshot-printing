@@ -52,17 +52,19 @@ class SelectQuantity extends Component {
     }
 
     return (
-      <Grid container spacing={16} alignItems="center" className={classNames(classes.swipeableGridContainer, )}>
-        <Grid item xs={6}>
-          <Typography className={classNames(classes.itemTitleText)}>
+      <Grid container alignItems="center">
+        <Grid item sm={1} xs={2} />
+        <Grid item sm={3} xs={6} className={classNames(classes.swipeableGridContainer, )}>
+          <Typography className={classNames(classes.itemTitleText, classes.colorBlack)}>
             { `Quantity` }
           </Typography>
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl variant="outlined" className={classNames(classes.formControl, classes.noMargin)}>
             <Select
-              value={quantityId}
+              value={quantityId ? quantityId : ""}
               onChange={this.handleChangeQuantity}
               input={
                 <OutlinedInput
+                  labelWidth={0}
                   name="quantityId"
                 />
               }

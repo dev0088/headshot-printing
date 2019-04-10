@@ -9,7 +9,7 @@ const fontFamily = "'Clarkson',Helvetica,sans-serif";
 //'-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji'
 //"Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace";
 //"'Open Sans', sans-serif"; 
-
+const orderContainerBackgroundImage = require('images/background.jpg');
 
 export const materialStyles = theme => ({
   root: {
@@ -171,6 +171,7 @@ export const materialStyles = theme => ({
   drawerMenuButton: {
     marginLeft: 12,
     marginRight: 20,
+    color: '#FFF',
   },
   hide: {
     display: 'none',
@@ -440,6 +441,12 @@ export const materialStyles = theme => ({
   white: {
     color: theme.palette.white.main
   },
+  whiteImportant: {
+    color: '#CCC !important',
+  },
+  black: {
+    color: theme.palette.black.main
+  },
   blue: {
     color: theme.palette.blue.main
   },
@@ -452,22 +459,22 @@ export const materialStyles = theme => ({
   pageTitleText: {
     fontSize: '2rem',
     fontWeight: 600,
-    color: theme.palette.white.main
+    color: theme.palette.black.main
   },
   itemTitleText: {
     fontSize: '1.35rem',
     fontWeight: 600,
-    color: theme.palette.white.main
+    color: theme.palette.black.main
   },
   itemSubTitleText: {
     fontSize: '1.2rem',
     fontWeight: 600,
-    color: theme.palette.white.main
+    color: theme.palette.black.main
   },
   generalDescriptionText: {
     fontSize: '1rem',
     fontWeight: 400,
-    color: theme.palette.white.thin
+    color: theme.palette.black.thin
   },
   productionsGalleryImage: {
     width: '100%',
@@ -525,7 +532,12 @@ export const materialStyles = theme => ({
     lineHeight: 1.25
   },
   homeBackgroundImageContainer: {
+    background: 'url(static/media/background.jpg)',
+    position: 'absolute',
+    top: 0,
+    left: 0,
     width: '100%',
+    zIndex: -1,
   },
   homeBackgroundImage: {
     width: '100%',
@@ -533,18 +545,180 @@ export const materialStyles = theme => ({
     objectFit: 'cover'
   },
   orderPrintsSteperLayout: {
-    position: 'absolute',
-    marginTop: 65,
-    marginBottom: 20,
-    right: 13,
+    paddingTop: 65,
+    paddingBottom: 20,
     width: '100%'
   },
+  orderContainer: {
+    // backgroundImage: `url(${orderContainerBackgroundImage})`,
+    background: '#000',
+    backgroundSize: '100% 100%',
+    minHeight: '100vh',
+  },
+  orderPrintsSteperBody: {
+    
+  },
   swipeableGridContainer: {
-    width: '101%'
+    width: '100%',
+    background: '#FFF',
+    minWidth: 200,
+    padding: '32px 16px !important',
+    borderRadius: 16,
+    marginTop: 16,
   },
   steperGridContainer: {
-    background: 'transparent'
-  }
+    background: 'transparent',
+    '& svg': {
+      color: 'rgba(255,255,255, 0.5)',
+    },
+  },
+  previewContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '5px 0',
+  },
+  previewStyle: {
+    width: 100,
+    height: 100,
+  },
+  previewClose: {
+    cursor: 'pointer',
+    opacity: 0.6,
+    position: 'relative',
+    top: -50,
+    right: 13,
+    '&:hover': {
+      opacity: 1,
+    },
+  },
+  previewCloseIcon: {
+    fontSize: '1.5em',
+  },
+  addImageContainer: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    display: 'flex',
+    flexDirection: 'row',
+    height: 140,
+  },
+  addImageIcon: {
+    borderRadius: '50%',
+    backgroundColor: theme.palette.black.main,
+    height: 36,
+    marginRight: 10,
+    width: 36,
+  },
+  largeIcon: {
+    fontSize: '2.2em',
+    color: theme.palette.white.main,
+    height: 40,
+    position: 'relative',
+    top: -2,
+  },
+  addImageText: {
+    fontSize: '1.5em',
+    userSelect: 'none',
+  },
+  sampleContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  samplePhotoEach: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 300,
+  },
+  itemLayoutImage: {
+    border: '1px solid #222',
+    padding: 8,
+    marginBottom: 15,
+    position: 'relative',
+    '& img': {
+      width: '100%',
+      maxHeight: 200,
+    }
+  },
+  itemLayoutImageName: {
+    position: 'absolute',
+    bottom: 0,
+    fontSize: 8,
+  },
+  itemRealImage: {
+    border: '1px solid #222',
+    padding: '30px 8px',
+    marginBottom: 15,
+    position: 'relative',
+    '& img': {
+      width: '100%',
+      maxHeight: 200,
+    }
+  },
+  itemRealImageName: {
+    position: 'relative',
+    bottom: 10,
+    fontSize: 16,
+  },
+  noMargin: {
+    margin: 0,
+  },
+  colorBlack: {
+    color: theme.palette.black.main,
+  },
+  customizeTitle: {
+    fontSize: 20,
+  },
+  customizeDescription: {
+    fontSize: 12,
+  },
+  customizeTextLabel: {
+    fontSize: 14,
+  },
+  flexContainer: {
+    display: 'flex',
+    minHeight: 56,
+  },
+  descriptionContainer: {
+    padding: 20,
+  },
+  formTextControl: {
+    minWidth: 'initial',
+  },
+  colorCustomizeTitle: {
+    alignSelf: 'center',
+    color: '#218fff',
+    fontSize: 14,
+    '& > label': {
+      marginLeft: 0,
+    }
+  },
+  alignItemCenter: {
+    alignItems: 'center',
+  },
+  colorTitle: {
+    color: '#4e321f',
+  },
+  additionalContainer: {
+
+  },
+  filePathContainer: {
+    display: 'flex',
+    position: 'relative',
+  },
+  pathRemove: {
+    position: 'absolute',
+    textAlign: 'right',
+  },
+  totalPrice: {
+    textAlign: 'right',
+    marginRight: 0,
+    fontSize: 20,
+    fontWeight: '600',
+    marginTop: 20,
+  },
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   
