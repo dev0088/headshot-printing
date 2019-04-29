@@ -3,13 +3,19 @@ import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
+import createHistory from 'history/createBrowserHistory';
 import configureStore from './store';
 import Routes from './routes/index';
 import './App.css';
 
-const history = createBrowserHistory();
 
 const { store, persistor } = configureStore(history);
+export { store };
+export const history = createHistory();
+
+// const history = createBrowserHistory();
+
+// const { store, persistor } = configureStore(history);
 
 class App extends Component {
   state = {

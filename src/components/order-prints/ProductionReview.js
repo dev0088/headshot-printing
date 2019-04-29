@@ -16,6 +16,7 @@ import * as productionActions from 'actions/productionActions';
 import { materialStyles } from 'styles/material/index';
 import * as appUtils from 'utils/appUtils';
 import CustomSelect from './CustomSelect';
+import ProductionUserInfo from './ProductionUserInfo';
 
 const FontFamilyList = [
   {caption: "Arial", id: "Arial"},
@@ -161,8 +162,9 @@ class ProductionReview extends Component {
     const customContainerStyle = (placement === 'On Border') ? 
       {
         borderColor: `1px solid ${borderColor}`,
+        textAlign: 'center'
       } : {
-
+        textAlign: 'center'
       }
     let amount = 0;
     let price = 0;
@@ -184,7 +186,7 @@ class ProductionReview extends Component {
               return (
                 <Grid item xs={6} sm={4} key={each.id} className={classNames(classes.samplePhotoEach)}>
                   <div className={classNames(classes.itemLayoutImage)}>
-                    <img src={require(`../../images/samples/${each.photo}`)} />
+                    <img src={require(`images/samples/${each.photo}`)} alt=""/>
                     <Typography style={each.style} className={classNames(classes.itemLayoutImageName)}>
                       Your Name Here
                     </Typography>
@@ -206,7 +208,24 @@ class ProductionReview extends Component {
           <Grid item xs={12} className={classNames(classes.flexContainer)}>
             <Grid item sm={5}>
               <div className={classNames(classes.itemRealImage)} style={customContainerStyle}>
-                <img style={customImageStyle} src={photo ? photo.preview : require(`../../images/samples/${reviewLayout[styleValue].photo}`)} />
+                <ImageLoader
+                  className={"customImageStyle"}
+                  src={(production.headshot && production.headshot.cloudinary_image_url) ?
+                    production.headshot.cloudinary_image_url :
+                    require(`images/missing.png`)}
+                  loading={() => 
+                    <div className={"customImageStyle"}>
+                      <CircularProgress
+                        variant="indeterminate"
+                        className={classes.loadingProgress}
+                        disableShrink
+                        size={60}
+                        thickness={4}
+                      />
+                    </div>
+                  }
+                  error={() => <div>Error</div>} 
+                />
                 <Typography 
                   style={ customCaptionStyle } 
                   className={classNames(classes.itemRealImageName)}

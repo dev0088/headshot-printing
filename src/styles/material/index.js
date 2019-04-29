@@ -9,7 +9,7 @@ const fontFamily = "'Clarkson',Helvetica,sans-serif";
 //'-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji'
 //"Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace";
 //"'Open Sans', sans-serif"; 
-const orderContainerBackgroundImage = require('images/background.jpg');
+
 
 export const materialStyles = theme => ({
   root: {
@@ -608,6 +608,7 @@ export const materialStyles = theme => ({
     height: 36,
     marginRight: 10,
     width: 36,
+    boxShadow: '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)'
   },
   largeIcon: {
     fontSize: '2.2em',
@@ -648,19 +649,24 @@ export const materialStyles = theme => ({
     fontSize: 8,
   },
   itemRealImage: {
-    border: '1px solid #222',
+    border: '1px solid #0000001f',
     padding: '30px 8px',
     marginBottom: 15,
     position: 'relative',
     '& img': {
       width: '100%',
-      maxHeight: 200,
+      height: '100%'
+      // maxHeight: 200,
     }
   },
   itemRealImageName: {
     position: 'relative',
     bottom: 10,
     fontSize: 16,
+  },
+  loadingProgress: {
+    color: '#6798e5',
+    animationDuration: '550ms',
   },
   noMargin: {
     margin: 0,

@@ -38,7 +38,7 @@ class Productions extends Component {
 
     render() {
         const { classes } = this.props;
-        const { loading, productions } = this.state;
+        const { productions } = this.state;
         
         let productionImages = productions.map(production => {
             return (
@@ -54,7 +54,7 @@ class Productions extends Component {
                             className={classes.productionsGalleryImage}
                             src={appUtils.generateImageUrl(production.gallery_image)}
                             loading={() => <CircularProgress size={20} thickness={5} />}
-                            error={() => <img src={require("../../images/missing.png")} />} 
+                            error={() => <img src={require("images/missing.png")} alt="missing"/>} 
                         />
                     </Link>
                 </Grid>

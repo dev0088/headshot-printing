@@ -5,6 +5,7 @@ import { MuiThemeProvider, } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import HeadshotScreen from './HeadshotScreen';
 import HeadshotHeader from './HeadshotHeader';
+import GlobalNotification from 'components/notification/GlobalNotification';
 import { themeMaterial } from '../../styles/material/index';
 
 class HeadshotHomeContainer extends Component {
@@ -20,6 +21,7 @@ class HeadshotHomeContainer extends Component {
               {children}
             </Grid>
           </Grid>
+          <GlobalNotification />
         </div>
       </MuiThemeProvider>
     );

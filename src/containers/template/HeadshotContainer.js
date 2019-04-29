@@ -5,8 +5,8 @@ import { MuiThemeProvider, } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import HeadshotScreen from './HeadshotScreen';
 import HeadshotHeader from './HeadshotHeader';
-import Spacer from '../../components/common/material/Spacer';
-import { themeMaterial } from '../../styles/material/index';
+import Spacer from 'components/common/material/Spacer';
+import { themeMaterial } from 'styles/material/index';
 
 class HeadshotContainer extends Component {
   render () {
@@ -26,7 +26,6 @@ class HeadshotContainer extends Component {
             </Grid>
             <Grid item xl={2} lg={2} md={1} sm={1} xs={1} />
           </Grid>
-
         </div>
       </MuiThemeProvider>
     );

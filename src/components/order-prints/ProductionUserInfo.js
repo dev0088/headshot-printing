@@ -1,22 +1,13 @@
 import React, { Component, createRef } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/HighlightOff';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Dropzone from 'react-dropzone'
-import * as appUtils from '../../utils/appUtils';
-import { materialStyles } from '../../styles/material/index';
+import Dropzone from 'react-dropzone';
+import { materialStyles } from 'styles/material/index';
 
 
 class ProductionUserInfo extends Component {
@@ -51,10 +42,11 @@ class ProductionUserInfo extends Component {
   };
 
   onPreviewDrop = (files) => {
-    let file = Object.assign({}, files[0]);
-    file.preview = URL.createObjectURL(files[0]);
-    this.setState({ file: file });
-    this.props.onChange('uploadImageUrl', file);
+    let file = files[0];
+    let previewFile = Object.assign({}, file);
+    previewFile.preview = URL.createObjectURL(file);
+    this.setState({ file: previewFile });
+    this.props.onChange('uploadFile', file);
   }
 
   onRemovePreview = () => {
@@ -100,7 +92,7 @@ class ProductionUserInfo extends Component {
                       <AddIcon className={classes.largeIcon} />
                     </div>
                     <Typography className={classNames(classes.addImageText, classes.colorBlack)}>
-                      { `Add your file` }
+                      { `Add your headshot` }
                     </Typography>
                     <input {...getInputProps()} />
                   </div>

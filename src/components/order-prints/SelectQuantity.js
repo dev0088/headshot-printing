@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import * as appUtils from '../../utils/appUtils';
-import { materialStyles } from '../../styles/material/index';
+import { materialStyles } from 'styles/material/index';
 
 class SelectQuantity extends Component {
   state = {
@@ -42,7 +34,7 @@ class SelectQuantity extends Component {
 
   render = () => {
     const { production, classes } = this.props;
-    const { quantityId, order } = this.state;
+    const { quantityId } = this.state;
     let productionQuantities = [];
 
     if (production && production.production_quantities) {

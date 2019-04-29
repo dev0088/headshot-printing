@@ -107,7 +107,7 @@ class ProductProof extends Component {
         <Grid item xs={12} sm={10} className={classNames(classes.swipeableGridContainer)}>
           <Grid item sm={12}>
             <div className={classNames(classes.itemRealImage)} style={customContainerStyle}>
-              <img style={customImageStyle} src={photo ? photo.preview : require(`../../images/samples/${reviewLayout[styleValue].photo}`)} />
+              <img style={customImageStyle} src={photo ? photo.preview : require(`images/samples/${reviewLayout[styleValue].photo}`)} />
               <Typography 
                 style={ customCaptionStyle } 
                 className={classNames(classes.itemRealImageName)}

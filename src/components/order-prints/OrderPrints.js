@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import withStyles from "@material-ui/core/styles/withStyles";
 import SwipeableViews from 'react-swipeable-views';
@@ -10,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
-import ImageLoader from 'react-loading-image';
 import ProductionSteper from './ProductionSteper';
 import SelectQuantity from './SelectQuantity';
 import ProductionUserInfo from './ProductionUserInfo';
@@ -19,7 +17,6 @@ import ProductionOrder from './ProductionOrder';
 import ProductProof from './ProductProof';
 import StripeCheckoutButton from './stripe/StripeCheckoutButton';
 import HeadshotAPI from 'apis/headshotAPIs';
-import Spacer from '../common/material/Spacer';
 import * as appUtils from 'utils/appUtils';
 import * as productionActions from 'actions/productionActions';
 import { materialStyles, themeMaterial } from 'styles/material/index';
@@ -33,6 +30,7 @@ class OrderPrints extends Component {
     order: null,
     step: 0,
     // hasImage: false,
+    uploadFile: null,
     uploadImageUrl: null,
     fileName: '',
     email: '',
@@ -86,17 +84,21 @@ class OrderPrints extends Component {
   handleNext = () => {
     const { step, paid } = this.state;
     if (step === 1) {
-      // Create new headshot
-      this.setState({loading: true}, () => {
-        const { email, fileName, uploadImageUrl, quantityId } = this.state;
-        let data = {
-          "email": email,
-          "file_name": fileName,
-          "quantity": quantityId,
-          "status": "Draft"
-        };
-        HeadshotAPI.createHeadshot(data, this.handleCreateHeadshot);
-      });
+      const { email, fileName, uploadFile, quantityId } = this.state;
+      if (email && fileName && uploadFile) {
+        // Create new headshot
+        this.setState({loading: true}, () => {
+          let data = {
+            "email": email,
+            "file_name": fileName,
+            "quantity": quantityId,
+            "status": "Draft"
+          };
+          HeadshotAPI.createHeadshot(data, this.handleCreateHeadshot);
+        });          
+      } else {
+        console.log('==== some data empty: state: ', this.state);
+      }
     } else {
       this.setState({
         step: step + 1,
@@ -133,8 +135,21 @@ class OrderPrints extends Component {
   handleCreateHeadshot = (response, isFailed) => {
     if (isFailed) {}
     else this.setState({loading: false, headshot: response, step: this.state.step + 1}, () => {
-      this.props.productionActions.setProductionState(this.state);
+      // Uploading headhost image to cloudinary via backend server
+      const { uploadFile, headshot } = this.state;
+      let data = new FormData();
+      data.append('file', uploadFile)
+      data.append('fileName', uploadFile.name)
+      HeadshotAPI.uploadHeadshotImage(headshot.id, data, this.handleUploadImageResponse);      
     });
+  }
+
+  handleUploadImageResponse = (response, isFailed) => {
+    if(isFailed) {}
+    else this.setState({headshot: response}, () => {
+      // Go to next step
+      this.props.productionActions.setProductionState(this.state);
+    })
   }
 
   handleCheckout = (token, isFailed) => {
