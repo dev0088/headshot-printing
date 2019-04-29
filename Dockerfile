@@ -15,7 +15,7 @@ RUN cd /usr/src/headshot_printing/
 RUN yarn install
 RUN yarn run build
 
-EXPOSE 8080
+EXPOSE 3000
 
 # start app
 CMD ["yarn", "start"]
