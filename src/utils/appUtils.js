@@ -68,7 +68,8 @@ export const reviewLayout = [
         padding: 25,
         backgroundColor: Color.white,
         borderColor: Color.black,
-        border: `2 px ${Color.black}`
+        // border: `2 px ${Color.black}`
+        border: '4px solid'
       },
       captionStyle: {
         fontFamily: FontFamilyList[0].id,

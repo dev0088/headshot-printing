@@ -1,144 +1,52 @@
-import React, { Component, createRef } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
+import styled from 'styled-components';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Select from '@material-ui/core/Select';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Radio from '@material-ui/core/Radio';
 import Checkbox from '@material-ui/core/Checkbox';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/HighlightOff';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Dropzone from 'react-dropzone'
+import ImageLoader from 'react-loading-image';
 import * as appUtils from 'utils/appUtils';
 import { materialStyles } from 'styles/material/index';
 
-// const FontFamilyList = [
-//   "Arial",
-//   "Helvetica",
-//   "Times New Roman",
-//   "Courier New",
-//   "Verdana"
-// ];
-// const TextStyleList = [
-//   {caption: "Uppercase", id: "Uppercase"},
-//   {caption: "Upper and Lower Case", id: "Upper and Lower Case"},
-//   {caption: "Lowercase", id: "Lowercase"},
-// ];
-// const MoveNameList = [
-//   {caption: "Lower Top", id: "Lower Top"},
-//   {caption: "Higher Top", id: "Higher Top"},
-//   {caption: "More Left", id: "More Left"},
-//   {caption: "Less Left", id: "Less Left"},
-// ];
-// const TransformSyle = {
-//   "Uppercase" : "uppercase",
-//   "Upper and Lower Case": "capitalize",
-//   "Lowercase": "lowercase",
-// };
-
-const Color = {
-  white: '#ffffff',
-  black: '#000000'
-};
+const PreviewImg = styled.div`
+  background-image: url(${props => props.src});
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
 
 class ProductProof extends Component {
   state = {
-    containerStyle: {
-      width: 400,
-      height: 500,
-      padding: 10,
-      backgroundColor: Color.white,
-      borderColor: Color.black,
-      border: `2 px ${Color.black}`
-    },
-    captionStyle: {
-      fontFamily: appUtils.FontFamilyList[0],
-      textTransform: appUtils.TransformSyle["Uppercase"],
-      color: Color.back
-    },
-    imageStyle: {
-      width: 380,
-      height: 480,
-      objectFit: 'cover',
-      borderColor: Color.white,
-      border: `1 px ${Color.white}`
+    containerStyle: {},
+    captionStyle: {},
+    imageStyle: {},
+    imageClassNames: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover'
     }
   };
 
-  componentWillMount = () => {
-    const { containerStyle, captionStyle, imageStyle } = this.props
+  componentWillMount() {
     this.setState({
-      containerStyle: containerStyle ? containerStyle : appUtils.reviewLayout[0].style.containerStyle,
-      captionStyle: captionStyle ? captionStyle : appUtils.reviewLayout[0].style.captionStyle,
-      imageStyle: imageStyle ? imageStyle : appUtils.reviewLayout[0].style.imageStyle
+      containerStyle: appUtils.reviewLayout[0].style.containerStyle,
+      captionStyle: appUtils.reviewLayout[0].style.captionStyle,
+      imageStyle: appUtils.reviewLayout[0].style.imageStyle,
+      imageClassNames: null
     })
   }
 
-  hanldeChangeCaptionFont = (name, value) => {
-    let newCaptionStyle = this.state.captionStyle;
-    newCaptionStyle[name] = value; 
-    this.setState({captionStyle: newCaptionStyle});
-  };
-
-  hanldeChangeCaptionMove = (moveName) => {
-    let newCaptionStyle = this.state.captionStyle;
-    
-    if (moveName === 'Lower Top') {
-      newCaptionStyle['top'] = 10;
-    }
-    else if (moveName === 'Higher Top') {
-      newCaptionStyle['top'] = -10;
-    }
-    else if (moveName === 'More Left') {
-      if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] += 10;
-      }
-      else {
-        newCaptionStyle['right'] += 10; 
-      }
-    }
-    else {
-      if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] -= 10;
-      }
-      else {
-        newCaptionStyle['right'] -= 10; 
-      }
-    }
-    this.setState({captionStyle: newCaptionStyle});
-  };
-
-  handleChangeCaptionPlace = (placeName) => {
-    let newContainerStyle = this.state.containerStyle;
-    let newCaptionStyle = this.state.captionStyle;
-    let newImageStyle = this.state.imageStyle;
-    
-    if (placeName === 'On Border') {
-      
-    } else {
-      newContainerStyle.padding = 10;
-      
-    }
-  };
-
-  handleChangeBorderColor = (value) => {
-    let newcontainerStyle = this.state.containerStyle;
-    newcontainerStyle.border = value;
-    this.setState({containerStyle: newcontainerStyle});
-  }
-
-
   render = () => {
     const { containerStyle, captionStyle, imageStyle } = this.state;
-    const { data, classes } = this.props;
+    const { data, production, classes } = this.props;
     const { 
       firstname, middlename, lastname, 
       // fontFamily, textStyle, borderColor, textColor,
@@ -152,25 +60,30 @@ class ProductProof extends Component {
     if (lastname && lastname.length > 0) yourName += lastname + ' ';
     const { reviewLayout } = appUtils;
 
-    
-    console.log('=== this.state: ', this.state);
-
     return (
-      <Grid container alignItems="center">
-        <Grid item sm={1} />
-        <Grid item xs={12} sm={10} className={classNames(classes.swipeableGridContainer)}>
-          <Grid item sm={12}>
-            <div className={classNames(classes.itemRealImage)} style={containerStyle}>
-              <img style={imageStyle} src={photo ? photo.preview : require(`images/samples/${reviewLayout[styleValue].photo}`)} alt="headshot" />
-              <Typography 
-                style={ captionStyle } 
-                className={classNames(classes.itemRealImageName)}
-              >
-                {yourName.length === 0 ? 'Your name Here' : yourName}
-              </Typography>
+      <Grid container alignItems="center" className={classNames(classes.swipeableGridContainer)}>
+        <Grid item xs={12} sm={10} className={classNames(classes.flexContainer)}>
+          <Grid item sm={5} className={classNames(classes.reviewImageContainerGridItem)}>
+            <div className={classNames(classes.itemRealImage)}>
+              <ImageLoader
+                src={(production && production.headshot && production.headshot.cloudinary_image_url) ? production.headshot.cloudinary_image_url : require(`images/missing.png`)}
+                
+                loading={() => 
+                  <div style={imageStyle}>
+                    <CircularProgress
+                      variant="indeterminate"
+                      className={classes.loadingProgress}
+                      disableShrink
+                      size={60}
+                      thickness={4}
+                    />
+                  </div>
+                }
+                error={() => <div>Error</div>} 
+              />
             </div>
           </Grid>
-          <Grid item sm={12} className={classNames(classes.descriptionContainer)}>
+          <Grid item sm={7} className={classNames(classes.descriptionContainer)}>
             <Typography className={classNames(classes.customizeTitle)}>
               Customize Your Layout
             </Typography>
@@ -423,4 +336,18 @@ class ProductProof extends Component {
   }
 }
 
-export default withStyles(materialStyles)(ProductProof);
+
+const mapStateToProps = (state) => {
+  const { production } = state;
+  return {
+    production
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(ProductProof));

@@ -656,7 +656,7 @@ export const materialStyles = theme => ({
     justifyContent: 'center'
   },
   itemRealImage: {
-    border: '4px solid #0000001f',
+    // border: '4px solid #0000001f',
     position: 'relative',
     '& img': {
       width: '100%',

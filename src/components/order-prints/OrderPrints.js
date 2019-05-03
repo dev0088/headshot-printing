@@ -31,7 +31,6 @@ class OrderPrints extends Component {
     quantityId: null,
     order: null,
     step: 0,
-    // hasImage: false,
     uploadFile: null,
     uploadImageUrl: null,
     fileName: '',

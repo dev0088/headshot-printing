@@ -10,15 +10,12 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Checkbox from '@material-ui/core/Checkbox';
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ImageLoader from 'react-loading-image';
 import * as productionActions from 'actions/productionActions';
 import { materialStyles } from 'styles/material/index';
 import * as appUtils from 'utils/appUtils';
 import CustomSelect from './CustomSelect';
-import domtoimage from 'dom-to-image';
-import HeadshotAPI from 'apis/headshotAPIs';
 
 const PreviewImg = styled.div`
   background-image: url(${props => props.src});
@@ -166,7 +163,6 @@ class ProductionReview extends Component {
   };
 
   handleLineColorChange = (lineC) => {
-    console.log('===== lineC: ', lineC);
     const { imageClassNames, imageStyle } = this.state;
     const { classes } = this.props;
     let newImageClassNames = Object.assign({}, imageClassNames);
@@ -546,4 +542,3 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(ProductionReview));
 
-// export default withStyles(materialStyles)(ProductionReview);
