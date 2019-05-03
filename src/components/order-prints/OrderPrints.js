@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import ProductionSteper from './ProductionSteper';
 import SelectQuantity from './SelectQuantity';
 import ProductionUserInfo from './ProductionUserInfo';
-import ProductionReview from './ProductionReview';
+import ProductionDesign from './ProductionDesign';
 import ProductionOrder from './ProductionOrder';
 import ProductProof from './ProductProof';
 import StripeCheckoutButton from './stripe/StripeCheckoutButton';
@@ -228,7 +228,7 @@ class OrderPrints extends Component {
                 onChangeOrder={this.handleChangeOrder}
               />
               <ProductionUserInfo onChange={this.handleChange} />
-              <ProductionReview photo={uploadImageUrl} onChange={this.handleChange} />
+              <ProductionDesign photo={uploadImageUrl} onChange={this.handleChange} />
               <ProductionOrder onChange={this.handleChange} />
               <ProductProof data={this.state}/>
             </SwipeableViews>

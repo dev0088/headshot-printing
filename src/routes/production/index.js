@@ -1,6 +1,5 @@
 import Home from 'components/home/Home';
 import Productions from 'components/productions/Productions';
-import Production from 'components/production/Production';
 import OrderPrints from 'components/order-prints/OrderPrints';
 import HeadshotHomeContainer from 'containers/template/HeadshotHomeContainer';
 import HeadshotContainer from 'containers/template/HeadshotContainer';
@@ -24,12 +23,6 @@ const productionRoutes = [
     path: "/productions",
     layout: HeadshotContainer,
     component: Productions,
-    exact: true
-  },
-  {
-    path: "/production",
-    layout: HeadshotContainer,
-    component: Production,
     exact: true
   },
 ];

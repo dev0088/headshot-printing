@@ -26,7 +26,7 @@ const PreviewImg = styled.div`
   background-repeat: no-repeat;
 `;
 
-class ProductionReview extends Component {
+class ProductionDesign extends Component {
   state = {
     styleValue: 0,
     firstname: '',
@@ -540,5 +540,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(ProductionReview));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(ProductionDesign));
 

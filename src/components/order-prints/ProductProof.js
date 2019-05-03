@@ -53,7 +53,17 @@ class ProductProof extends Component {
       moveName, placement, lineColor, checkedCover,
       uploadImageUrl: photo,
     } = data;
-    let styleValue = data.styleValue ? data.styleValue : 0;;
+    let amount = 0;
+    let price = 0;
+    let currentQuantiry = production.production ? 
+      production.production.production_quantities.find(quantity => {return quantity.id === production.quantityId;}) : 
+      null;
+    if (currentQuantiry) {
+      amount = currentQuantiry.amount;
+      price = currentQuantiry.plus_price;
+    }
+
+    let styleValue = data.styleValue ? data.styleValue : 0;
     let yourName = '';
     if (firstname && firstname.length > 0) yourName = firstname + ' ';
     if (middlename && middlename.length > 0) yourName += middlename + ' ';
@@ -85,16 +95,24 @@ class ProductProof extends Component {
           </Grid>
           <Grid item sm={7} className={classNames(classes.descriptionContainer)}>
             <Typography className={classNames(classes.customizeTitle)}>
-              Customize Your Layout
+              Review Your Order
             </Typography>
             <Typography className={classNames(classes.customizeDescription)}>
-              We set this ordering system to default to the most common layout.
-              Please make any of the changes you would like and click 'Apply'
+              It looks like we have gone over everything we need to proceed with your order. Please take a moment to review the details below and confirm that everything is correct. You can make changes using the buttons provided to return to a previous section.
             </Typography>
-            <Grid item sm={12}>
-              <Typography className={classNames(classes.customizeTextLabel, classes.colorCustomizeTitle)}>
-                { `Enter your name as it will appear on your print` }
+            
+            <Grid item sm={12} className={classNames(classes.flexContainer)}>
+              <Typography className={classNames(classes.customizeTitle)}>
+                { `Headshots` }
               </Typography>
+            </Grid>
+            <Grid item sm={12} className={classNames(classes.flexContainer)}>
+              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
+                { `Quantity: ` }
+              </Grid>
+              <Grid item sm={8}>
+                {captionStyle.fontFamily}
+              </Grid>
             </Grid>
             <Grid item sm={12} className={classNames(classes.flexContainer)}>
               <Grid item sm={4}>
