@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
+import domtoimage from 'dom-to-image';
 import withStyles from "@material-ui/core/styles/withStyles";
 import SwipeableViews from 'react-swipeable-views';
 import Grid from '@material-ui/core/Grid';
@@ -44,12 +45,8 @@ class OrderPrints extends Component {
       loading: true,
       step: 0,
       headshot: null,
-      // ...this.props.production
     }, () => {
-      // let productionId = (this.props.location && this.props.location.state) ? this.props.location.state.productionId : 0;
-      // if (productionId) {
-        HeadshotAPI.getProduction(2, this.handleGetProductionResponse);
-      // }
+      HeadshotAPI.getProduction(2, this.handleGetProductionResponse);
     });
   }
 
@@ -74,7 +71,7 @@ class OrderPrints extends Component {
   }
 
   handleChange = (name, value) => {
-    // console.log(name, value);
+    console.log(name, value);
     this.setState({[name]: value});
   }
 
@@ -101,32 +98,34 @@ class OrderPrints extends Component {
   }
 
   handleNext = () => {
-    const { step, paid } = this.state;
+    const { step, email, fileName, quantityId, paid } = this.state;
     if(!this.validationCheck()) return;
-    
-    if (step === 1) {
-      const { email, fileName, uploadFile, quantityId } = this.state;
-      // Create new headshot
-      this.setState({loading: true}, () => {
-        let data = {
-          "email": email,
-          "file_name": fileName,
-          "quantity": quantityId,
-          "status": "Draft"
-        };
-        HeadshotAPI.createHeadshot(data, this.handleCreateHeadshot);
-      });
-    } else {
-      this.setState({
-        step: step + 1,
-      }, () => {
-        this.props.productionActions.setProductionState(this.state);
-        if (paid) {
-          // this.props.onChangeMenu({key: 'productions'});
-          // Go to home page
-          this.props.history.push('/')
-        }
-      });  
+    switch (step) {
+      case 1:
+        // Create new headshot
+        this.setState({loading: true}, () => {
+          let data = {
+            "email": email,
+            "file_name": fileName,
+            "quantity": quantityId,
+            "status": "Draft"
+          };
+          HeadshotAPI.createHeadshot(data, this.handleCreateHeadshot);
+        });
+        break;
+      case 2:
+        // Upload image to cloudinary
+        this.handleUploadImage();
+        break;
+      default:
+        this.setState({step: step + 1}, () => {
+          this.props.productionActions.setProductionState(this.state);
+          if (paid) {
+            // Go to home page
+            this.props.history.push('/')
+          }
+        });
+        break;
     }
   };
 
@@ -136,7 +135,7 @@ class OrderPrints extends Component {
     }, () => {
       this.props.productionActions.setProductionState(this.state);
       if (this.state.step === 1) {
-        if (this.state.headshot) HeadshotAPI.deleteHeadshot(this.state.headshot.id, this.handleCreateHeadshot);
+        if (this.state.headshot) HeadshotAPI.deleteHeadshot(this.state.headshot.id, this.handleDeleteHeadshot);
       }
     });
   };
@@ -152,18 +151,42 @@ class OrderPrints extends Component {
   handleCreateHeadshot = (response, isFailed) => {
     if (isFailed) {}
     else this.setState({loading: false, headshot: response, step: this.state.step + 1}, () => {
-      // Uploading headhost image to cloudinary via backend server
-      const { uploadFile, headshot } = this.state;
-      let data = new FormData();
-      data.append('file', uploadFile)
-      data.append('fileName', uploadFile.name)
-      HeadshotAPI.uploadHeadshotImage(headshot.id, data, this.handleUploadImageResponse);      
+      // Go to next step
+      this.props.productionActions.setProductionState(this.state);
+    });
+  };
+
+  handleDeleteHeadshot = (response, isFailed) => {
+    if (isFailed) {}
+    else this.setState({loading: false, headshot: response}, () => {
+      // Go to next step
+      this.props.productionActions.setProductionState(this.state);
+    });
+  }
+
+  handleUploadImage = () => {
+    let node = document.getElementById('preview-headshot');
+    const { production } = this.props;
+    const __this = this;
+    domtoimage.toJpeg(node, { quality: 0.95 })
+    .then(function (dataUrl) {
+        let img = new Image();
+        img.src = dataUrl;
+        // Uploading headhost image to cloudinary via backend server
+        const uploadDataUrl = dataUrl.replace("data:image/jpg;base64,", "");
+        let data = new FormData();
+        data.append('file', uploadDataUrl);
+        data.append('fileName', 'headshot')
+        HeadshotAPI.uploadHeadshotImage(production.headshot.id, data, __this.handleUploadImageResponse);      
+    })
+    .catch(function (error) {
+        console.error('oops, something went wrong!', error);
     });
   }
 
   handleUploadImageResponse = (response, isFailed) => {
     if(isFailed) {}
-    else this.setState({headshot: response}, () => {
+    else this.setState({headshot: response, step: this.state.step + 1}, () => {
       // Go to next step
       this.props.productionActions.setProductionState(this.state);
     })

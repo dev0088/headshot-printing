@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
+import styled from 'styled-components';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -16,8 +17,17 @@ import * as productionActions from 'actions/productionActions';
 import { materialStyles } from 'styles/material/index';
 import * as appUtils from 'utils/appUtils';
 import CustomSelect from './CustomSelect';
-import ProductionUserInfo from './ProductionUserInfo';
+import domtoimage from 'dom-to-image';
+import HeadshotAPI from 'apis/headshotAPIs';
 
+const PreviewImg = styled.div`
+  background-image: url(${props => props.src});
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+`;
 
 class ProductionReview extends Component {
   state = {
@@ -32,14 +42,19 @@ class ProductionReview extends Component {
     containerStyle: {},
     captionStyle: {},
     imageStyle: {},
-
+    imageClassNames: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover'
+    }
   };
 
   componentWillMount() {
     this.setState({
       containerStyle: appUtils.reviewLayout[0].style.containerStyle,
       captionStyle: appUtils.reviewLayout[0].style.captionStyle,
-      imageStyle: appUtils.reviewLayout[0].style.imageStyle
+      imageStyle: appUtils.reviewLayout[0].style.imageStyle,
+      imageClassNames: null
     })
   }
 
@@ -151,7 +166,23 @@ class ProductionReview extends Component {
   };
 
   handleLineColorChange = (lineC) => {
-    this.setState({ lineColor: lineC });
+    console.log('===== lineC: ', lineC);
+    const { imageClassNames, imageStyle } = this.state;
+    const { classes } = this.props;
+    let newImageClassNames = Object.assign({}, imageClassNames);
+    
+    if (lineC === 'Black Line') {
+      newImageClassNames = classNames(classes.itemRealImage, classes.borderColorBlack);
+    } else if (lineC === 'White Line') {
+      newImageClassNames = classNames(classes.itemRealImage, classes.borderColorWhite);
+    } else if (lineC === 'No Line') {
+      newImageClassNames = classNames(classes.itemRealImage, classes.borderColorNone);
+    }
+
+    this.setState({
+      imageClassNames: newImageClassNames, 
+      lineColor: lineC
+    });
   };
 
   handleToggleCover = (event) => {
@@ -159,30 +190,18 @@ class ProductionReview extends Component {
   };
 
   render = () => {
-    const { production, classes, photo } = this.props;
+    const { production, classes, photo, uploadImageUrl } = this.props;
     const { 
       styleValue, firstname, middlename, lastname,
       moveName, placement, lineColor, checkedCover,
-      containerStyle, captionStyle, imageStyle
+      containerStyle, captionStyle, imageStyle, imageClassNames
     } = this.state;
     const { reviewLayout } = appUtils;
     let yourName = '';
     if (firstname.length > 0) yourName = firstname + ' ';
     if (middlename.length > 0) yourName += middlename + ' ';
     if (lastname.length > 0) yourName += lastname + ' ';
-    
-    let amount = 0;
-    let price = 0;
-
-    let currentQuantiry = production.production ? 
-      production.production.production_quantities.find(quantity => {
-        return quantity.id === production.quantityId;
-      }) : 
-      null;
-    if (currentQuantiry) {
-      amount = currentQuantiry.amount;
-      price = currentQuantiry.plus_price;
-    }
+    if (lineColor === "")
 
     console.log('=== this.state: ', this.state);
 
@@ -216,11 +235,10 @@ class ProductionReview extends Component {
           </Grid>
           <Grid item xs={12} className={classNames(classes.flexContainer)}>
             <Grid item sm={5} className={classNames(classes.reviewImageContainerGridItem)}>
-              <div className={classNames(classes.itemRealImage)} style={containerStyle}>
+              <div id="preview-headshot" className={classNames(classes.itemRealImage)} style={containerStyle}>
                 <ImageLoader
-                  src={(production.headshot && production.headshot.cloudinary_image_url) ?
-                    production.headshot.cloudinary_image_url :
-                    require(`images/missing.png`)}
+                  src={(production.uploadImageUrl && production.uploadImageUrl.preview) ? production.uploadImageUrl.preview : require(`images/missing.png`)}
+                  image={props => <PreviewImg {...props}/>}
                   loading={() => 
                     <div style={imageStyle}>
                       <CircularProgress

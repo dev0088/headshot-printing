@@ -45,8 +45,10 @@ class ProductionUserInfo extends Component {
     let file = files[0];
     let previewFile = Object.assign({}, file);
     previewFile.preview = URL.createObjectURL(file);
+    
     this.setState({ file: previewFile });
     this.props.onChange('uploadFile', file);
+    this.props.onChange('uploadImageUrl', previewFile);
   }
 
   onRemovePreview = () => {

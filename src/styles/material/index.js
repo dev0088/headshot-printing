@@ -3,6 +3,7 @@ import red from '@material-ui/core/colors/red';
 import grey from '@material-ui/core/colors/grey';
 import blue from '@material-ui/core/colors/blue';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import { Color } from '../../utils/appUtils';
 
 const drawerWidth = 240;
 const fontFamily = "'Clarkson',Helvetica,sans-serif";
@@ -655,15 +656,12 @@ export const materialStyles = theme => ({
     justifyContent: 'center'
   },
   itemRealImage: {
-    border: '1px solid #0000001f',
-    padding: '30px 8px',
-    marginBottom: 15,
+    border: '4px solid #0000001f',
     position: 'relative',
     '& img': {
       width: '100%',
       height: '100%',
       objectFit: 'cover'
-      // maxHeight: 200,
     }
   },
   itemRealImageName: {
@@ -732,76 +730,21 @@ export const materialStyles = theme => ({
     fontWeight: '600',
     marginTop: 20,
   },
+  borderColorWhite: {
+    borderColor: 'white'
+  },
+  borderColorBlack: {
+    borderColor: 'black'
+  },
+  borderColorNone: {
+    borderColor: null
+  }
+
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   
 });
 
-// export const theme = createMuiTheme ({
-//   palette: {
-//     primary: {
-//       // main: '#28a745', //'#007bff',
-//       main: '#FFFFFF',
-//       // light: '#2196F3'
-//       light: grey[400]
-//     },
-//     secondary: {
-//       main: '#C00'
-//     },
-//     green: {
-//       main: '#28a745'
-//     },
-//     teal: {
-//       main: '#20c997'
-//     },
-//     white: {
-//       main: '#FFFFFF',
-//       light: grey[100],
-//       dark: grey[300],
-//       thin: '#d6d7d8',
-//       contrastText: '#fff'
-//     },
-//     black: {
-//       main: grey[900],
-//       dark: grey[800],
-//       thin: grey[700],
-//       light: grey[600],
-//     },
-//     grey: {
-//       main: grey[900],
-//       dark: grey[800],
-//       light: grey[400],
-//       thin: grey[200],
-//     },
-//     darkGrey: {
-//       main: grey[800]
-//     },
-//     lightGrey: {
-//       main: grey[400]
-//     },
-//     red: {
-//       main: '#C00',
-//       thin: red[400],
-//       light: red[400],
-//       dark: red[900]
-//     },
-//     blue: {
-//       main: blue[700],
-//       light: blue[400],
-//       dark: blue[900]
-//     }
-//   },
-//   typography: {
-//     fontFamily: fontFamily,
-//     textTransform: "none",
-//     useNextVariants: true,
-//     color: '#FFFFFF',
-//   },
-//   button: {
-//     primaryColor: '#FFFFFF',
-//     primaryFontSize: '1.5rem'
-//   },
-// });
 
 
 export const themeMaterial = createMuiTheme ({
