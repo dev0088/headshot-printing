@@ -19,6 +19,7 @@ import StripeCheckoutButton from './stripe/StripeCheckoutButton';
 import HeadshotAPI from 'apis/headshotAPIs';
 import * as appUtils from 'utils/appUtils';
 import * as productionActions from 'actions/productionActions';
+import * as globalNotificationActions from 'actions/globalNotificationActions';
 import { materialStyles, themeMaterial } from 'styles/material/index';
 
 
@@ -81,24 +82,40 @@ class OrderPrints extends Component {
     this.setState({ step: index });
   };
 
+  validationCheck = () => {
+    const { step, email, fileName, uploadFile, quantityId } = this.state;
+    let res = false;
+    switch(step) {
+      case 0:
+        res = (quantityId !== null);
+        break;
+      case 1:
+        res = (email && fileName && uploadFile);
+        break;
+      default: 
+        res = true;
+        break;
+    }
+    if (!res) this.props.globalNotificationActions.notify(true, 'error', 'Some data is empty. Please input every items.');
+    return res;
+  }
+
   handleNext = () => {
     const { step, paid } = this.state;
+    if(!this.validationCheck()) return;
+    
     if (step === 1) {
       const { email, fileName, uploadFile, quantityId } = this.state;
-      if (email && fileName && uploadFile) {
-        // Create new headshot
-        this.setState({loading: true}, () => {
-          let data = {
-            "email": email,
-            "file_name": fileName,
-            "quantity": quantityId,
-            "status": "Draft"
-          };
-          HeadshotAPI.createHeadshot(data, this.handleCreateHeadshot);
-        });          
-      } else {
-        console.log('==== some data empty: state: ', this.state);
-      }
+      // Create new headshot
+      this.setState({loading: true}, () => {
+        let data = {
+          "email": email,
+          "file_name": fileName,
+          "quantity": quantityId,
+          "status": "Draft"
+        };
+        HeadshotAPI.createHeadshot(data, this.handleCreateHeadshot);
+      });
     } else {
       this.setState({
         step: step + 1,
@@ -299,17 +316,18 @@ class OrderPrints extends Component {
 }
 
 function mapStateToProps(state) {
-    const { productions, production } = state;
-    return {
-        productions,
-        production
-    }
+  const { productions, production } = state;
+  return {
+    productions,
+    production
+  }
 }
   
 function mapDispatchToProps(dispatch) {
-    return {
-        productionActions: bindActionCreators(productionActions, dispatch)
-    }
+  return {
+    productionActions: bindActionCreators(productionActions, dispatch),
+    globalNotificationActions: bindActionCreators(globalNotificationActions, dispatch)
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(OrderPrints));

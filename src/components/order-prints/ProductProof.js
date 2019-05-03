@@ -10,46 +10,138 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import Select from '@material-ui/core/Select';
 import Radio from '@material-ui/core/Radio';
 import Checkbox from '@material-ui/core/Checkbox';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/HighlightOff';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Dropzone from 'react-dropzone'
-import * as appUtils from '../../utils/appUtils';
-import { materialStyles } from '../../styles/material/index';
+import * as appUtils from 'utils/appUtils';
+import { materialStyles } from 'styles/material/index';
 
-const FontFamilyList = [
-  {caption: "Arial", id: "Arial"},
-  {caption: "Helvetica", id: "Helvetica"},
-  {caption: "Times New Roman", id: "Times New Roman"},
-  {caption: "Courier New", id: "Courier New"},
-  {caption: "Verdana", id: "Verdana"}
-];
-const TextStyleList = [
-  {caption: "Uppercase", id: "Uppercase"},
-  {caption: "Upper and Lower Case", id: "Upper and Lower Case"},
-  {caption: "Lowercase", id: "Lowercase"},
-];
-const MoveNameList = [
-  {caption: "Lower Top", id: "Lower Top"},
-  {caption: "Higher Top", id: "Higher Top"},
-  {caption: "More Left", id: "More Left"},
-  {caption: "Less Left", id: "Less Left"},
-];
-const TransformSyle = {
-  "Uppercase" : "uppercase",
-  "Upper and Lower Case": "capitalize",
-  "Lowercase": "lowercase",
+// const FontFamilyList = [
+//   "Arial",
+//   "Helvetica",
+//   "Times New Roman",
+//   "Courier New",
+//   "Verdana"
+// ];
+// const TextStyleList = [
+//   {caption: "Uppercase", id: "Uppercase"},
+//   {caption: "Upper and Lower Case", id: "Upper and Lower Case"},
+//   {caption: "Lowercase", id: "Lowercase"},
+// ];
+// const MoveNameList = [
+//   {caption: "Lower Top", id: "Lower Top"},
+//   {caption: "Higher Top", id: "Higher Top"},
+//   {caption: "More Left", id: "More Left"},
+//   {caption: "Less Left", id: "Less Left"},
+// ];
+// const TransformSyle = {
+//   "Uppercase" : "uppercase",
+//   "Upper and Lower Case": "capitalize",
+//   "Lowercase": "lowercase",
+// };
+
+const Color = {
+  white: '#ffffff',
+  black: '#000000'
 };
 
 class ProductProof extends Component {
+  state = {
+    containerStyle: {
+      width: 400,
+      height: 500,
+      padding: 10,
+      backgroundColor: Color.white,
+      borderColor: Color.black,
+      border: `2 px ${Color.black}`
+    },
+    captionStyle: {
+      fontFamily: appUtils.FontFamilyList[0],
+      textTransform: appUtils.TransformSyle["Uppercase"],
+      color: Color.back
+    },
+    imageStyle: {
+      width: 380,
+      height: 480,
+      objectFit: 'cover',
+      borderColor: Color.white,
+      border: `1 px ${Color.white}`
+    }
+  };
+
+  componentWillMount = () => {
+    const { containerStyle, captionStyle, imageStyle } = this.props
+    this.setState({
+      containerStyle: containerStyle ? containerStyle : appUtils.reviewLayout[0].style.containerStyle,
+      captionStyle: captionStyle ? captionStyle : appUtils.reviewLayout[0].style.captionStyle,
+      imageStyle: imageStyle ? imageStyle : appUtils.reviewLayout[0].style.imageStyle
+    })
+  }
+
+  hanldeChangeCaptionFont = (name, value) => {
+    let newCaptionStyle = this.state.captionStyle;
+    newCaptionStyle[name] = value; 
+    this.setState({captionStyle: newCaptionStyle});
+  };
+
+  hanldeChangeCaptionMove = (moveName) => {
+    let newCaptionStyle = this.state.captionStyle;
+    
+    if (moveName === 'Lower Top') {
+      newCaptionStyle['top'] = 10;
+    }
+    else if (moveName === 'Higher Top') {
+      newCaptionStyle['top'] = -10;
+    }
+    else if (moveName === 'More Left') {
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] += 10;
+      }
+      else {
+        newCaptionStyle['right'] += 10; 
+      }
+    }
+    else {
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] -= 10;
+      }
+      else {
+        newCaptionStyle['right'] -= 10; 
+      }
+    }
+    this.setState({captionStyle: newCaptionStyle});
+  };
+
+  handleChangeCaptionPlace = (placeName) => {
+    let newContainerStyle = this.state.containerStyle;
+    let newCaptionStyle = this.state.captionStyle;
+    let newImageStyle = this.state.imageStyle;
+    
+    if (placeName === 'On Border') {
+      
+    } else {
+      newContainerStyle.padding = 10;
+      
+    }
+  };
+
+  handleChangeBorderColor = (value) => {
+    let newcontainerStyle = this.state.containerStyle;
+    newcontainerStyle.border = value;
+    this.setState({containerStyle: newcontainerStyle});
+  }
+
 
   render = () => {
+    const { containerStyle, captionStyle, imageStyle } = this.state;
     const { data, classes } = this.props;
     const { 
       firstname, middlename, lastname, 
-      fontFamily, textStyle, borderColor, textColor,
+      // fontFamily, textStyle, borderColor, textColor,
       moveName, placement, lineColor, checkedCover,
       uploadImageUrl: photo,
     } = data;
@@ -59,57 +151,19 @@ class ProductProof extends Component {
     if (middlename && middlename.length > 0) yourName += middlename + ' ';
     if (lastname && lastname.length > 0) yourName += lastname + ' ';
     const { reviewLayout } = appUtils;
-    let customCaptionStyle = {};
-    customCaptionStyle['fontFamily'] = fontFamily;
-    customCaptionStyle['textTransform'] = TransformSyle[textStyle];
-    customCaptionStyle['color'] = textColor;
-    customCaptionStyle = Object.assign(
-      customCaptionStyle, 
-      reviewLayout[styleValue].style
-    );
-    if (moveName === 'Lower Top') {
-      customCaptionStyle['top'] = 10;
-    }
-    else if (moveName === 'Higher Top') {
-      customCaptionStyle['top'] = -10;
-    }
-    else if (moveName === 'More Left') {
-      if (customCaptionStyle['left']) {
-        customCaptionStyle['left'] += 10;
-      }
-      else {
-        customCaptionStyle['right'] += 10; 
-      }
-    }
-    else {
-      if (customCaptionStyle['left']) {
-        customCaptionStyle['left'] -= 10;
-      }
-      else {
-        customCaptionStyle['right'] -= 10; 
-      }
-    }
 
-    const customImageStyle = (placement === 'On Border') ? 
-      {
-        borderColor: `0px none`,
-      } : {
-        borderColor: `1px solid ${borderColor}`,
-      };
-    const customContainerStyle = (placement === 'On Border') ? 
-      {
-        borderColor: `1px solid ${borderColor}`,
-      } : {};
+    
+    console.log('=== this.state: ', this.state);
 
     return (
       <Grid container alignItems="center">
         <Grid item sm={1} />
         <Grid item xs={12} sm={10} className={classNames(classes.swipeableGridContainer)}>
           <Grid item sm={12}>
-            <div className={classNames(classes.itemRealImage)} style={customContainerStyle}>
-              <img style={customImageStyle} src={photo ? photo.preview : require(`images/samples/${reviewLayout[styleValue].photo}`)} />
+            <div className={classNames(classes.itemRealImage)} style={containerStyle}>
+              <img style={imageStyle} src={photo ? photo.preview : require(`images/samples/${reviewLayout[styleValue].photo}`)} alt="headshot" />
               <Typography 
-                style={ customCaptionStyle } 
+                style={ captionStyle } 
                 className={classNames(classes.itemRealImageName)}
               >
                 {yourName.length === 0 ? 'Your name Here' : yourName}
@@ -184,7 +238,7 @@ class ProductProof extends Component {
                 { `Change Font` }
               </Grid>
               <Grid item sm={8}>
-                {fontFamily}
+                {captionStyle.fontFamily}
               </Grid>
             </Grid>
             <Grid item sm={12} className={classNames(classes.flexContainer)}>
@@ -192,7 +246,7 @@ class ProductProof extends Component {
                 { `Change case` }
               </Grid>
               <Grid item sm={8}>
-                {textStyle}
+                { captionStyle.textTransform }
               </Grid>
             </Grid>
             <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
@@ -203,7 +257,7 @@ class ProductProof extends Component {
                 <FormControlLabel
                   control={
                     <Radio
-                      checked={borderColor === 'white'}
+                      checked={captionStyle.color === 'white'}
                       value={"White"}
                       color="default"
                       name="radio-button-demo"
@@ -216,7 +270,7 @@ class ProductProof extends Component {
                 <FormControlLabel
                   control={
                     <Radio
-                      checked={borderColor === 'black'}
+                      checked={containerStyle.borderColor === 'black'}
                       value={"Black"}
                       color="default"
                       name="radio-button-demo"
@@ -236,7 +290,7 @@ class ProductProof extends Component {
                 <FormControlLabel
                   control={
                     <Radio
-                      checked={textColor === 'black'}
+                      checked={captionStyle.color === 'black'}
                       value={"Black"}
                       color="default"
                       name="radio-button-demo"
@@ -249,7 +303,7 @@ class ProductProof extends Component {
                 <FormControlLabel
                   control={
                     <Radio
-                      checked={textColor === 'white'}
+                      checked={captionStyle.color === 'white'}
                       value={"White"}
                       color="default"
                       name="radio-button-demo"

@@ -18,47 +18,29 @@ import * as appUtils from 'utils/appUtils';
 import CustomSelect from './CustomSelect';
 import ProductionUserInfo from './ProductionUserInfo';
 
-const FontFamilyList = [
-  {caption: "Arial", id: "Arial"},
-  {caption: "Helvetica", id: "Helvetica"},
-  {caption: "Times New Roman", id: "Times New Roman"},
-  {caption: "Courier New", id: "Courier New"},
-  {caption: "Verdana", id: "Verdana"}
-];
-const TextStyleList = [
-  {caption: "Uppercase", id: "Uppercase"},
-  {caption: "Upper and Lower Case", id: "Upper and Lower Case"},
-  {caption: "Lowercase", id: "Lowercase"},
-];
-const MoveNameList = [
-  {caption: "Lower Top", id: "Lower Top"},
-  {caption: "Higher Top", id: "Higher Top"},
-  {caption: "More Left", id: "More Left"},
-  {caption: "Less Left", id: "Less Left"},
-];
-const TransformSyle = {
-  "Uppercase" : "uppercase",
-  "Upper and Lower Case": "capitalize",
-  "Lowercase": "lowercase",
-};
 
 class ProductionReview extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      styleValue: 0,
-      firstname: '',
-      lastname: '',
-      middlename: '',
-      fontFamily: FontFamilyList[0].id,
-      textStyle: TextStyleList[0].id,
-      borderColor: 'black',
-      textColor: 'black',
-      moveName: MoveNameList[0].id,
-      placement: 'On Border',
-      lineColor: 'Black Line',
-      checkedCover: false,
-    };
+  state = {
+    styleValue: 0,
+    firstname: '',
+    lastname: '',
+    middlename: '',
+    moveName: appUtils.MoveNameList[0].id,
+    placement: appUtils.PlacemetList[0],
+    lineColor: appUtils.LineColorList[0],
+    checkedCover: false,
+    containerStyle: {},
+    captionStyle: {},
+    imageStyle: {},
+
+  };
+
+  componentWillMount() {
+    this.setState({
+      containerStyle: appUtils.reviewLayout[0].style.containerStyle,
+      captionStyle: appUtils.reviewLayout[0].style.captionStyle,
+      imageStyle: appUtils.reviewLayout[0].style.imageStyle
+    })
   }
 
   handleChange = (name, event) => {
@@ -79,103 +61,130 @@ class ProductionReview extends Component {
   handleStyleChange = (event) => {
     console.log(event.target.value);
     this.setState({ styleValue: event.target.value });
-  }
+  };
 
   handleChangeFont = (family) => {
-    this.setState({ fontFamily: family });
-  }
+    const { captionStyle } = this.state;
+    let newCaptionStyle = Object.assign({}, captionStyle);
+    newCaptionStyle.fontFamily = family;
+    this.setState({captionStyle: newCaptionStyle});
+  };
 
   handleChangeTextStyle = (style) => {
-    this.setState({ textStyle: style })
-  }
+    const { captionStyle } = this.state;
+    let newCaptionStyle = Object.assign({}, captionStyle);
+    newCaptionStyle.textTransform = style;
+    this.setState({captionStyle: newCaptionStyle});
+  };
 
   handleTextColorChange = (color) => {
-    this.setState({ textColor: color });
-  }
+    const { captionStyle } = this.state;
+    let newCaptionStyle = Object.assign({}, captionStyle);
+    newCaptionStyle.color = color;
+    console.log('==== color: ', color)
+    this.setState({captionStyle: newCaptionStyle});
+  };
 
   handleBorderColorChange = (color) => {
-    this.setState({ borderColor: color });
-  }
+    const { containerStyle } = this.state;
+    let newContainerStyle = Object.assign({}, containerStyle);
+    newContainerStyle.borderColor = color;
+    this.setState({ containerStyle: newContainerStyle });
+  };
 
   handleMoveNameStyle = (name) => {
-    this.setState({ moveName: name });
-  }
+    const { captionStyle } = this.state;
+    let newCaptionStyle = Object.assign({}, captionStyle);;
+    console.log('==== name: ', name);
+    if (name === 'Lower Top') {
+      if (newCaptionStyle['top']) {
+        newCaptionStyle['top'] -= 10;
+      } else {
+        newCaptionStyle['bottom'] -= 10; 
+      }
+    } else if (name === 'Higher Top') {
+      if (newCaptionStyle['top']) {
+        newCaptionStyle['top'] += 10;
+      } else {
+        newCaptionStyle['bottom'] += 10; 
+      }
+    } else if (name === 'More Left') {
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] += 10;
+      } else {
+        newCaptionStyle['right'] += 10; 
+      }
+    } else if (name === 'Less Left') {
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] -= 10;
+      } else {
+        newCaptionStyle['right'] -= 10; 
+      }
+    }
+    this.setState({captionStyle: newCaptionStyle, moveName: name});
+  };
 
   handlePlacementChange = (place) => {
-    this.setState({ placement: place });
-  }
+    const { containerStyle, imageStyle, captionStyle } = this.state;
+    let newContainerStyle = Object.assign({}, containerStyle);
+    let newCaptionStyle = Object.assign({}, captionStyle);
+    let newImageStyle = Object.assign({}, imageStyle);
+    console.log('==== place: ', place);
+    if (place === 'On Border') {
+      newContainerStyle.padding = 25;
+      newCaptionStyle.position = null;
+      newImageStyle.width = 380;
+      newImageStyle.height = 480;
+    } else {
+      newContainerStyle.padding = 0;
+      newCaptionStyle.position = 'absolute';
+      newCaptionStyle.top = null;
+      newImageStyle.width = 400;
+      newImageStyle.height = 500;
+    }
+    this.setState({
+      containerStyle: newContainerStyle,
+      captionStyle: newCaptionStyle,
+      imageStyle: newImageStyle,
+      placement: place
+    });
+  };
 
   handleLineColorChange = (lineC) => {
     this.setState({ lineColor: lineC });
-  }
+  };
 
   handleToggleCover = (event) => {
     this.setState({ checkedCover: event.target.checked });
-  }
+  };
 
   render = () => {
     const { production, classes, photo } = this.props;
     const { 
-      styleValue, firstname, middlename, lastname, 
-      fontFamily, textStyle, borderColor, textColor,
-      moveName, placement, lineColor, checkedCover
+      styleValue, firstname, middlename, lastname,
+      moveName, placement, lineColor, checkedCover,
+      containerStyle, captionStyle, imageStyle
     } = this.state;
     const { reviewLayout } = appUtils;
     let yourName = '';
     if (firstname.length > 0) yourName = firstname + ' ';
     if (middlename.length > 0) yourName += middlename + ' ';
     if (lastname.length > 0) yourName += lastname + ' ';
-    let customCaptionStyle = {};
-    customCaptionStyle['fontFamily'] = fontFamily;
-    customCaptionStyle['textTransform'] = TransformSyle[textStyle];
-    customCaptionStyle['color'] = textColor;
-    customCaptionStyle = Object.assign(customCaptionStyle, reviewLayout[styleValue].style);
-    if (moveName === 'Lower Top') {
-      customCaptionStyle['top'] = 10;
-    }
-    else if (moveName === 'Higher Top') {
-      customCaptionStyle['top'] = -10;
-    }
-    else if (moveName === 'More Left') {
-      if (customCaptionStyle['left']) {
-        customCaptionStyle['left'] += 10;
-      }
-      else {
-        customCaptionStyle['right'] += 10; 
-      }
-    }
-    else {
-      if (customCaptionStyle['left']) {
-        customCaptionStyle['left'] -= 10;
-      }
-      else {
-        customCaptionStyle['right'] -= 10; 
-      }
-    }
-
-    const customImageStyle = (placement === 'On Border') ? 
-      {
-        borderColor: `0px none`,
-      } : {
-        borderColor: `1px solid ${borderColor}`,
-      };
-    const customContainerStyle = (placement === 'On Border') ? 
-      {
-        borderColor: `1px solid ${borderColor}`,
-        textAlign: 'center'
-      } : {
-        textAlign: 'center'
-      }
+    
     let amount = 0;
     let price = 0;
 
-    let currentQuantiry = production.production ? production.production.production_quantities.find(quantity => {
-      return quantity.id === production.quantityId;
-    }) : null;
+    let currentQuantiry = production.production ? 
+      production.production.production_quantities.find(quantity => {
+        return quantity.id === production.quantityId;
+      }) : 
+      null;
     if (currentQuantiry) {
       amount = currentQuantiry.amount;
       price = currentQuantiry.plus_price;
     }
+
+    console.log('=== this.state: ', this.state);
 
     return (
       <Grid container alignItems="center">
@@ -206,15 +215,14 @@ class ProductionReview extends Component {
             })}
           </Grid>
           <Grid item xs={12} className={classNames(classes.flexContainer)}>
-            <Grid item sm={5}>
-              <div className={classNames(classes.itemRealImage)} style={customContainerStyle}>
+            <Grid item sm={5} className={classNames(classes.reviewImageContainerGridItem)}>
+              <div className={classNames(classes.itemRealImage)} style={containerStyle}>
                 <ImageLoader
-                  className={"customImageStyle"}
                   src={(production.headshot && production.headshot.cloudinary_image_url) ?
                     production.headshot.cloudinary_image_url :
                     require(`images/missing.png`)}
                   loading={() => 
-                    <div className={"customImageStyle"}>
+                    <div style={imageStyle}>
                       <CircularProgress
                         variant="indeterminate"
                         className={classes.loadingProgress}
@@ -227,7 +235,7 @@ class ProductionReview extends Component {
                   error={() => <div>Error</div>} 
                 />
                 <Typography 
-                  style={ customCaptionStyle } 
+                  style={ captionStyle } 
                   className={classNames(classes.itemRealImageName)}
                 >
                   {yourName.length === 0 ? 'Your name Here' : yourName}
@@ -303,8 +311,8 @@ class ProductionReview extends Component {
                 </Grid>
                 <Grid item sm={8}>
                   <CustomSelect
-                    list={FontFamilyList}
-                    value={fontFamily}
+                    list={appUtils.FontFamilyList}
+                    value={captionStyle.fontFamily}
                     onChange={this.handleChangeFont}
                   />
                 </Grid>
@@ -315,8 +323,8 @@ class ProductionReview extends Component {
                 </Grid>
                 <Grid item sm={8}>
                   <CustomSelect
-                    list={TextStyleList}
-                    value={textStyle}
+                    list={appUtils.TextStyleList}
+                    value={captionStyle.textTransform}
                     onChange={this.handleChangeTextStyle}
                   />
                 </Grid>
@@ -329,9 +337,9 @@ class ProductionReview extends Component {
                   <FormControlLabel
                     control={
                       <Radio
-                        checked={borderColor === 'white'}
-                        onChange={() => this.handleBorderColorChange('white')}
-                        value={"White"}
+                        checked={containerStyle.borderColor === appUtils.Color.white}
+                        onChange={() => this.handleBorderColorChange(appUtils.Color.white)}
+                        value={appUtils.Color.white}
                         color="default"
                         name="radio-button-demo"
                         aria-label={"White"}
@@ -342,9 +350,9 @@ class ProductionReview extends Component {
                   <FormControlLabel
                     control={
                       <Radio
-                        checked={borderColor === 'black'}
-                        onChange={() => this.handleBorderColorChange('black')}
-                        value={"Black"}
+                        checked={containerStyle.borderColor === appUtils.Color.black}
+                        onChange={() => this.handleBorderColorChange(appUtils.Color.black)}
+                        value={appUtils.Color.black}
                         color="default"
                         name="radio-button-demo"
                         aria-label={"Black"}
@@ -362,28 +370,28 @@ class ProductionReview extends Component {
                   <FormControlLabel
                     control={
                       <Radio
-                        checked={textColor === 'black'}
-                        onChange={() => this.handleTextColorChange('black')}
-                        value={"Black"}
+                        checked={captionStyle.color === appUtils.Color.black}
+                        onChange={() => this.handleTextColorChange(appUtils.Color.black)}
+                        value={appUtils.Color.black}
                         color="default"
                         name="radio-button-demo"
                         aria-label={"Black"}
                       />
                     }
-                    label="white"
+                    label="Black"
                   />
                   <FormControlLabel
                     control={
                       <Radio
-                        checked={textColor === 'white'}
-                        onChange={() => this.handleTextColorChange('white')}
-                        value={"White"}
+                        checked={captionStyle.color === appUtils.Color.white}
+                        onChange={() => this.handleTextColorChange(appUtils.Color.white)}
+                        value={appUtils.Color.white}
                         color="default"
                         name="radio-button-demo"
                         aria-label={"White"}
                       />
                     }
-                    label="black"
+                    label="White"
                   />
                 </Grid>
               </Grid>
@@ -393,7 +401,7 @@ class ProductionReview extends Component {
                 </Grid>
                 <Grid item sm={8}>
                   <CustomSelect
-                    list={MoveNameList}
+                    list={appUtils.MoveNameList}
                     value={moveName}
                     onChange={this.handleMoveNameStyle}
                   />
@@ -499,93 +507,12 @@ class ProductionReview extends Component {
             </Grid>
           </Grid>
         </Grid>
-        {/*<Grid item xs={12}>
-          <Typography className={classNames(classes.itemTitleText)}>
-            { `Review Your Order` }
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `It looks like we have gone over everything we need to proceed with your order. 
-              Please take a moment to review the details below and confirm that everything is correct. 
-              You can make changes using the buttons provided to return to a previous section.` }
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.itemSubTitleText)}>
-            { `Stripe Payment` }
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.itemSubTitleText)}>
-            { `Headshots` }
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `Quantity: ${amount}` }
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `$${price}` }
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `Set-up fee` }
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `$${25}` }
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.itemSubTitleText)}>
-            { `Your infomation` }
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `Image on File: ${production.hasImage ? 'Yes' : 'No'}, Reproductions already has my image.` }
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `File name or image description: ${production.fileName}` }
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.generalDescriptionText)}>
-            { `Your email address: ${production.email}` }
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Typography className={classNames(classes.itemSubTitleText)}>
-            { `Image` }
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <ImageLoader
-            className={classes.productionGalleryImage}
-            src={production.headshot ? production.headshot.cloudinary_image_url : ''}
-            loading={() => <CircularProgress size={20} thickness={5} />}
-            error={() => <img src={require("../../images/missing.png")} alt="missing" />} 
-          />
-        </Grid>*/}
       </Grid>
     );
   }
-}
+};
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   const { productions, production } = state;
   return {
     productions,
@@ -593,7 +520,7 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
     productionActions: bindActionCreators(productionActions, dispatch)
   }

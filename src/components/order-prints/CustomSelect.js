@@ -28,9 +28,10 @@ class CustomSelect extends Component {
   }
 
   handleChange = event => {
-    this.setState({ value: event.target.value }, () => {
-      this.props.onChange(this.state.value)
-    });
+    this.props.onChange(event.target.value)
+    // this.setState({ value: event.target.value }, () => {
+    //   this.props.onChange(event.target.value)
+    // });
   };
 
   render = () => {

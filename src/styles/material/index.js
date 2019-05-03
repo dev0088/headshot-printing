@@ -579,15 +579,16 @@ export const materialStyles = theme => ({
     padding: '5px 0',
   },
   previewStyle: {
-    width: 100,
-    height: 100,
+    width: 160,
+    height: 200,
+    objectFit: 'cover'
   },
   previewClose: {
     cursor: 'pointer',
     opacity: 0.6,
     position: 'relative',
-    top: -50,
-    right: 13,
+    bottom: -92,
+    right: 0,
     '&:hover': {
       opacity: 1,
     },
@@ -648,6 +649,11 @@ export const materialStyles = theme => ({
     bottom: 0,
     fontSize: 8,
   },
+  reviewImageContainerGridItem: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   itemRealImage: {
     border: '1px solid #0000001f',
     padding: '30px 8px',
@@ -655,7 +661,8 @@ export const materialStyles = theme => ({
     position: 'relative',
     '& img': {
       width: '100%',
-      height: '100%'
+      height: '100%',
+      objectFit: 'cover'
       // maxHeight: 200,
     }
   },

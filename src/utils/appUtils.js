@@ -13,7 +13,46 @@ export const getSteps = () => {
     '5. Proof',
     '6. Check out'
   ];
-}
+};
+
+export const FontFamilyList = [
+  {caption: "Arial", id: "Arial"},
+  {caption: "Helvetica", id: "Helvetica"},
+  {caption: "Times New Roman", id: "Times New Roman"},
+  {caption: "Courier New", id: "Courier New"},
+  {caption: "Verdana", id: "Verdana"}
+];
+export const TextStyleList = [
+  {caption: "Uppercase", id: "uppercase"},
+  {caption: "Upper and Lower Case", id: "capitalize"},
+  {caption: "Lowercase", id: "lowercase"},
+];
+export const MoveNameList = [
+  {caption: "Lower Top", id: "Lower Top"},
+  {caption: "Higher Top", id: "Higher Top"},
+  {caption: "More Left", id: "More Left"},
+  {caption: "Less Left", id: "Less Left"},
+];
+export const TransformSyle = {
+  "Uppercase" : "uppercase",
+  "Upper and Lower Case": "capitalize",
+  "Lowercase": "lowercase",
+};
+export const PlacemetList = [
+  "On Border",
+  "On Image"
+];
+export const LineColorList = [
+  "Black Line",
+  "White Line",
+  "No Line"
+]
+
+export const Color = {
+  white: '#ffffff',
+  black: '#000000'
+};
+
 
 export const reviewLayout = [
   {
@@ -23,6 +62,29 @@ export const reviewLayout = [
     style: {
       textAlign: 'right',
       right: 8,
+      containerStyle: {
+        width: 400,
+        height: 500,
+        padding: 25,
+        backgroundColor: Color.white,
+        borderColor: Color.black,
+        border: `2 px ${Color.black}`
+      },
+      captionStyle: {
+        fontFamily: FontFamilyList[0].id,
+        textTransform: TextStyleList[0].id,
+        color: Color.black,
+        bottom: 0,
+        top: 0,
+        right: 0,
+        textAlign: 'right'
+      },
+      imageStyle: {
+        width: 380,
+        height: 480,
+        objectFit: 'cover',
+        borderColor: Color.white,
+      }
     },
   },
   {

@@ -1,6 +1,6 @@
 import * as types from './actionTypes'
 
-export function notify(open, type, message) {
+export const notify = (open, type, message) => {
   return {
     type: types.GLOBAL_NOTIFICATION,
     payload: {
