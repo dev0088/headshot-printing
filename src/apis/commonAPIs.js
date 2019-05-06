@@ -61,6 +61,26 @@ class CommonAPI {
       })
   };
 
+  static processRequestWithDocFile = (url, method, data, handleResponse, messages, needRefreshUserInfo) => {
+    let params = {
+      method: method,
+      headers: {
+        "Authorization": `Bearer ${getToken()}`,
+        // "Content-Type": data.type
+      },
+      body: data
+    };
+
+    this.notifyProgress(messages.progress);
+    fetch(`${apiConfig.url}/${url}`, params)
+      .then(response => response.json())
+      .then(response => this.hanldeResponseWithNotification(response, false, messages.failed, messages.success, handleResponse, needRefreshUserInfo))
+      .catch(error => {
+        console.log('error: ', error);
+        this.hanldeResponseWithNotification(error, true, messages.failed, messages.success, handleResponse, needRefreshUserInfo);
+      })
+  };
+
   static processRequestWithToken = (url, method, data, handleResponse) => {
     let parameters = {
       method: method,

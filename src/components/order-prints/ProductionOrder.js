@@ -41,8 +41,7 @@ class ProductionOrder extends Component {
   };
 
   onPreviewDrop = (files) => {
-    let file = Object.assign({}, files[0]);
-    file.preview = URL.createObjectURL(files[0]);
+    let file = files[0];
     this.setState({ file: file }, () => {
       this.props.onChange('orderElectronic', this.state);
     });
@@ -190,7 +189,7 @@ class ProductionOrder extends Component {
                       <AddIcon className={classes.largeIcon} />
                     </div>
                     <Typography className={classNames(classes.addImageText, classes.colorBlack, classes.inlineText)}>
-                      { `Add your file ` }
+                      { `Add your file  ` }
                     </Typography>
                     <Typography className={classNames(classes.itemTitleTextSmall, classes.colorBlack, classes.inlineText)}>
                       {`(*.txt, *.pdf, *.doc, *.docx)`}

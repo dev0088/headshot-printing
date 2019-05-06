@@ -72,7 +72,6 @@ class OrderPrints extends Component {
   }
 
   handleChange = (name, value) => {
-    console.log(name, value);
     this.setState({[name]: value});
   }
 
@@ -99,7 +98,7 @@ class OrderPrints extends Component {
   }
 
   handleNext = () => {
-    const { step, email, fileName, quantityId, paid } = this.state;
+    const { step, email, fileName, quantityId, orderElectronic, paid } = this.state;
     if(!this.validationCheck()) return;
     switch (step) {
       case 1:
@@ -117,6 +116,11 @@ class OrderPrints extends Component {
       case 2:
         // Upload image to cloudinary
         this.handleUploadImage();
+        break;
+      case 3:
+        // Upload attached file
+        if (orderElectronic.file) this.handleUploadDoc();
+        else this.setState({step: this.state.step + 1}, () => this.props.productionActions.setProductionState(this.state));
         break;
       default:
         this.setState({step: step + 1}, () => {
@@ -186,6 +190,26 @@ class OrderPrints extends Component {
   }
 
   handleUploadImageResponse = (response, isFailed) => {
+    if(isFailed) {}
+    else this.setState({headshot: response, step: this.state.step + 1}, () => {
+      // Go to next step
+      this.props.productionActions.setProductionState(this.state);
+    })
+  }
+
+  handleUploadDoc = () => {
+    // Uploading headhost doc file to cloudinary via backend server
+    const { orderElectronic } = this.state;
+    const { production } = this.props;
+    console.log('==== handleUploadDoc: state: ', this.state);
+    let data = new FormData();
+    data.append('file', orderElectronic.file);
+    data.append('fileName', 'headshot_doc');
+    data.append('type', orderElectronic.file.type);
+    HeadshotAPI.uploadHeadshotDescriptionDoc(production.headshot.id, data, this.handleUploadDocResponse);          
+  }
+
+  handleUploadDocResponse = (response, isFailed) => {
     if(isFailed) {}
     else this.setState({headshot: response, step: this.state.step + 1}, () => {
       // Go to next step
@@ -316,9 +340,6 @@ class OrderPrints extends Component {
                 <Grid item xs={12}>
                   <ProductionSteper step={step} onChangeStep={this.handleChangeStep} />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  { this.renderStepForm() }
-                </Grid> */}
               </Grid>
             </Grid>
             <Grid item lg={1} md={1} sm={12} xs={12}/>

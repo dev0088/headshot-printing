@@ -20,11 +20,11 @@ class HeadshotAPI {
   }
 
   static uploadHeadshotImage(headshotId, data, handleResponse) {
-    CommonAPI.processRequestWithFile(`headshot/upload/${headshotId}/`, 'put', data, handleResponse, NOTIFY_MESSAGES.UPLOAD_HEADSHOT_IMAGE, true);
+    CommonAPI.processRequestWithFile(`headshot/upload_image/${headshotId}/`, 'put', data, handleResponse, NOTIFY_MESSAGES.UPLOAD_HEADSHOT_IMAGE, true);
   }
 
-  static uploadHeadshotDescriptionFile(headshotId, data, handleResponse) {
-    CommonAPI.processRequestWithFile(`headshot/upload_file/${headshotId}/`, 'put', data, handleResponse, NOTIFY_MESSAGES.UPLOAD_HEADSHOT_DESCRIPTION_FILE, true);
+  static uploadHeadshotDescriptionDoc(headshotId, data, handleResponse) {
+    CommonAPI.processRequestWithDocFile(`headshot/upload_doc/${headshotId}/`, 'put', data, handleResponse, NOTIFY_MESSAGES.UPLOAD_HEADSHOT_DESCRIPTION_FILE, true);
   }
 
   static createPayment(headshotId, data, handleResponse) {
