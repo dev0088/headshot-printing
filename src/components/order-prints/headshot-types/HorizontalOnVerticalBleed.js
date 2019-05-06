@@ -43,7 +43,7 @@ class HorizontalOnVerticalBleed extends Component {
 
   handleChange = (name, event) => {
     this.setState({ [name]: event.target.checked }, () => {
-      this.props.onChange(name, this.state[name]);
+      this.props.onChange(this.state);
     });
   };
 
@@ -51,7 +51,7 @@ class HorizontalOnVerticalBleed extends Component {
     this.setState({
       [name]: event.target.value,
     }, () => {
-      this.props.onChange(name, this.state[name]);
+      this.props.onChange(this.state);
     });
   };
 

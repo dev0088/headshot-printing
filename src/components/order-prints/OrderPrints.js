@@ -38,7 +38,8 @@ class OrderPrints extends Component {
     headshot: null,
     design: {},
     orderElectronic: {},
-    paid: false
+    paid: false,
+    totalPrice: 0.0
   };
 
   componentWillMount() {
@@ -64,7 +65,17 @@ class OrderPrints extends Component {
   };
 
   handleChangeQuantity = quantityId => {
-    this.setState({ quantityId });
+    const { production } = this.state;
+    let price = 0;
+    let currentQuantiry = production ? 
+      production.production_quantities.find(quantity => {return quantity.id === quantityId;}) : 
+      null;
+    
+    if (currentQuantiry && (currentQuantiry.plus_price !== null)) {
+      price = parseFloat(currentQuantiry.plus_price);
+    }
+    if (production && production.price) price += parseFloat(production.price);
+    this.setState({ quantityId, totalPrice: price });
   };
 
   handleChangeStep = (step) => {
@@ -98,7 +109,7 @@ class OrderPrints extends Component {
   }
 
   handleNext = () => {
-    const { step, email, fileName, quantityId, orderElectronic, paid } = this.state;
+    const { step, email, fileName, quantityId, orderElectronic, totalPrice, paid } = this.state;
     if(!this.validationCheck()) return;
     switch (step) {
       case 1:
@@ -120,7 +131,7 @@ class OrderPrints extends Component {
       case 3:
         // Upload attached file
         if (orderElectronic.file) this.handleUploadDoc();
-        else this.setState({step: this.state.step + 1}, () => this.props.productionActions.setProductionState(this.state));
+        else this.setState({totalPrice: totalPrice + orderElectronic.price, step: this.state.step + 1}, () => this.props.productionActions.setProductionState(this.state));
         break;
       default:
         this.setState({step: step + 1}, () => {
@@ -210,8 +221,9 @@ class OrderPrints extends Component {
   }
 
   handleUploadDocResponse = (response, isFailed) => {
+    const { orderElectronic, totalPrice, step } = this.state;
     if(isFailed) {}
-    else this.setState({headshot: response, step: this.state.step + 1}, () => {
+    else this.setState({headshot: response, totalPrice: totalPrice + orderElectronic.price, step: step + 1}, () => {
       // Go to next step
       this.props.productionActions.setProductionState(this.state);
     })
@@ -256,7 +268,7 @@ class OrderPrints extends Component {
               <ProductionUserInfo onChange={this.handleChange} />
               <ProductionDesign photo={uploadImageUrl} onChange={this.handleChange} />
               <ProductionOrder onChange={this.handleChange} />
-              <ProductProof data={this.state}/>
+              <ProductProof data={this.state} onChange={this.handleChange} />
             </SwipeableViews>
           ) : (
             <div/>
@@ -266,24 +278,7 @@ class OrderPrints extends Component {
 
   render() {
     const { classes } = this.props;
-    const { loading, production, step, quantityId, headshot, paid } = this.state;
-    // console.log('==== production: ', this);
-    let amount = 0;
-    let price = 0;
-    let fileName = headshot ?  headshot.file_name : '';
-    let imageUrl = headshot ? headshot.cloudinary_image_secure_url : '';
-    let productionQuantities = [];
-    // Get current quantity
-    let currentQuantity = null;
-    if (production && production.production_quantities) {
-      currentQuantity = production.production_quantities.find(quantity => {
-        return quantity.id === quantityId;
-      });
-    }
-    if (currentQuantity) {
-      amount = currentQuantity.amount;
-      price = parseFloat(currentQuantity.plus_price);
-    }
+    const { production, step, quantityId, headshot, totalPrice, paid } = this.state;
 
     if (!(production && production.production_quantities)) {
       return (
@@ -320,7 +315,7 @@ class OrderPrints extends Component {
                     ((step === appUtils.getSteps().length - 1) && !paid) ? (
                       <StripeCheckoutButton 
                         headshot={headshot} 
-                        amount={price} 
+                        amount={totalPrice} 
                         onCheckout={this.handleCheckout} 
                         onPayment={this.handlePayment}
                       />

@@ -45,8 +45,8 @@ class SelectQuantity extends Component {
 
     return (
       <Grid container alignItems="center">
-        <Grid item sm={1} xs={2} />
-        <Grid item sm={3} xs={6} className={classNames(classes.swipeableGridContainer, )}>
+        <Grid item xl={1} lg={1} md={1} sm={1} xs={1} />
+        <Grid item xl={2} lg={3} md={6} sm={7} xs={10} className={classNames(classes.swipeableGridContainer, )}>
           <Typography className={classNames(classes.itemTitleText, classes.colorBlack)}>
             { `Quantity` }
           </Typography>

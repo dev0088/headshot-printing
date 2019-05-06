@@ -20,7 +20,7 @@ class ProductionOrder extends Component {
       burnDisk: false,
       likeOption: 0,
       additionalInstruction: null,
-      price: 0,
+      price: appUtils.linkOptionList[0].price,
     };
   }
 
@@ -60,7 +60,7 @@ class ProductionOrder extends Component {
   }
 
   handleLikeOptionChange = (option) => {
-    this.setState({ likeOption: option }, () => {
+    this.setState({ likeOption: option, price: appUtils.linkOptionList[option].price }, () => {
       this.props.onChange('orderElectronic', this.state);
     });
   }
@@ -68,8 +68,6 @@ class ProductionOrder extends Component {
   render = () => {
     const { production, classes } = this.props;
     const { burnDisk, likeOption, file, price } = this.state;
-    let total = price;
-    total += appUtils.linkOptionList[likeOption].price
     
     return (
       <Grid container alignItems="center">

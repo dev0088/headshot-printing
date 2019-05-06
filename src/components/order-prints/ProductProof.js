@@ -15,16 +15,21 @@ class ProductProof extends Component {
   render = () => {
     const { data, classes } = this.props;
     const { 
-      production, design, orderElectronic, email, quantityId, headshot,
-      firstname, lastname, middlename, 
-     } = data;
-    const {
-      moveName, placement, lineColor, 
-      styleValue, checkedCover,
-      containerStyle, captionStyle, imageStyle
-    } = design;
+      production, design, orderElectronic, email, quantityId, headshot, fileName
+    } = data;
+    console.log('==== data: ', data);
+    const { layoutType, layout } = design;
     const { reviewLayout } = appUtils;
-    
+    let firstname = layout ? layout.firstname : '';
+    let lastname = layout ? layout.lastname : '';
+    let middlename = layout ? layout.middlename : '';
+    let moveName = layout ? layout.moveName : '';
+    let placement = layout ? layout.placement : '';
+    let lineColor = layout ? layout.lineColor : '';
+    let containerStyle = layout ? layout.containerStyle : {};
+    let captionStyle = layout ? layout.captionStyle : {};
+    let imageStyle = layout ? layout.imageStyle : {};
+
     let amount = 0;
     let price = 0;
     let currentQuantiry = production ? 
@@ -41,7 +46,7 @@ class ProductProof extends Component {
       total += appUtils.linkOptionList[orderElectronic.likeOption].price;
     if (production && production.price)
       total += parseFloat(production.price);
-    total = total ? total.toFixed(2) : 0;
+    total = total ? total.toFixed(2) : 0.0;
 
     return (
       <Grid container alignItems="center">
@@ -83,7 +88,7 @@ class ProductProof extends Component {
                 { `Printing service` }
               </Typography>
             </Grid>
-            <CustomReviewItem name={'Price'} value={(production && production.price) ? production.price : 0} />
+            <CustomReviewItem name={'Price'} value={`$${(production && production.price) ? production.price : 0}`} />
 
             <Grid item sm={12} className={classNames(classes.reviewProcedureTitleContainer)}>
               <Typography className={classNames(classes.customizeTitle)}>
@@ -106,15 +111,14 @@ class ProductProof extends Component {
                 { `Designs` }
               </Typography>
             </Grid>
-            <CustomReviewItem name={'Layout'} value={reviewLayout[styleValue] ? reviewLayout[styleValue].title : ''} />
+            <CustomReviewItem name={'Layout'} value={reviewLayout[parseInt(layoutType)] ? reviewLayout[parseInt(layoutType)].title : ''} />
             <CustomReviewItem name={'Font'} value={captionStyle ? captionStyle.fontFamily : ''} />
             <CustomReviewItem name={'Case'} value={captionStyle ? captionStyle.textTransform : ''} />
-            <CustomReviewItem name={'Border Color'} value={captionStyle ? containerStyle.borderColor : ''} />
+            <CustomReviewItem name={'Border Color'} value={containerStyle ? containerStyle.backgroundColor : ''} />
             <CustomReviewItem name={'Text Color'} value={captionStyle ? captionStyle.color : ''} />
             <CustomReviewItem name={'Move name'} value={moveName} />
             <CustomReviewItem name={'Name Placement'} value={placement} />
             <CustomReviewItem name={'Line Color'} value={lineColor} />
-            <CustomReviewItem name={'Cover image to black and white'} value={checkedCover ? 'Yes' : 'No'} />
 
             <Grid item sm={12} className={classNames(classes.reviewProcedureTitleContainer)}>
               <Typography className={classNames(classes.customizeTitle)}>
