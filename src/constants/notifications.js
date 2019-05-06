@@ -16,7 +16,12 @@ export const NOTIFY_MESSAGES = {
   UPLOAD_HEADSHOT_IMAGE: createNotifyMessage(
     'Uploading your headshot image...',
     'Your headshot image was uploaded successfully.',
-    'Failed to upload your headshot. Please try later.'
+    'Failed to upload your headshot image. Please try later.'
+  ),
+  UPLOAD_HEADSHOT_DESCRIPTION_FILE: createNotifyMessage(
+    'Uploading your headshot description file...',
+    'Your headshot description file was uploaded successfully.',
+    'Failed to upload your description file. Please try later.'
   ),
   CREAT_PAYMENT: createNotifyMessage(
     'Processing your payment...',

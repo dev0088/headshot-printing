@@ -23,6 +23,10 @@ class HeadshotAPI {
     CommonAPI.processRequestWithFile(`headshot/upload/${headshotId}/`, 'put', data, handleResponse, NOTIFY_MESSAGES.UPLOAD_HEADSHOT_IMAGE, true);
   }
 
+  static uploadHeadshotDescriptionFile(headshotId, data, handleResponse) {
+    CommonAPI.processRequestWithFile(`headshot/upload_file/${headshotId}/`, 'put', data, handleResponse, NOTIFY_MESSAGES.UPLOAD_HEADSHOT_DESCRIPTION_FILE, true);
+  }
+
   static createPayment(headshotId, data, handleResponse) {
     CommonAPI.processRequestWithNotification(`headshot/charge/${headshotId}/`, 'post', data, handleResponse, NOTIFY_MESSAGES.CREAT_PAYMENT, true);
   }

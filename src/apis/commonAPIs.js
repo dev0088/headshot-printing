@@ -51,7 +51,7 @@ class CommonAPI {
       body: data
     };
 
-    
+    this.notifyProgress(messages.progress);
     fetch(`${apiConfig.url}/${url}`, params)
       .then(response => response.json())
       .then(response => this.hanldeResponseWithNotification(response, false, messages.failed, messages.success, handleResponse, needRefreshUserInfo))

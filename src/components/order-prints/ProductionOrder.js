@@ -1,23 +1,16 @@
-import React, { Component, createRef } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
-import Checkbox from '@material-ui/core/Checkbox';
-import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/HighlightOff';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import AddIcon from '@material-ui/icons/Add';
 import Dropzone from 'react-dropzone'
-import * as appUtils from '../../utils/appUtils';
-import { materialStyles } from '../../styles/material/index';
+import Spacer from 'components/common/material/Spacer';
+import * as appUtils from 'utils/appUtils';
+import { materialStyles } from 'styles/material/index';
 
 class ProductionOrder extends Component {
   
@@ -25,59 +18,60 @@ class ProductionOrder extends Component {
     super(props);
     this.state = {
       burnDisk: false,
-      likeOption: 1,
-      additionalInstruction: '',
-      price: 95,
+      likeOption: 0,
+      additionalInstruction: null,
+      price: 0,
     };
-    
+  }
+
+  componentWillMount = () => {
+    this.props.onChange('orderElectronic', this.state);
   }
 
   handleChange = (name, event) => {
     this.setState({ [name]: event.target.checked }, () => {
-      this.props.onChange(name, this.state[name]);
+      this.props.onChange('orderElectronic', this.state);
     });
   };
 
   handleChangeText = (name, event) => {
-    this.setState({
-      [name]: event.target.value,
-    }, () => {
-      this.props.onChange(name, this.state[name]);
+    this.setState({[name]: event.target.value}, () => {
+      this.props.onChange('orderElectronic', this.state);
     });
   };
 
   onPreviewDrop = (files) => {
     let file = Object.assign({}, files[0]);
     file.preview = URL.createObjectURL(files[0]);
-    this.setState({ file: file });
-    this.props.onChange('additionalInstruction', file);
+    this.setState({ file: file }, () => {
+      this.props.onChange('orderElectronic', this.state);
+    });
   }
 
   onRemovePreview = () => {
-    this.setState({ file: null });
+    this.setState({ file: null }, () => {
+      this.props.onChange('orderElectronic', this.state);
+    });
   }
 
   handleBurnDiskChange = (b) => {
-    this.setState({ burnDisk: b });
+    this.setState({ burnDisk: b }, () => {
+      this.props.onChange('orderElectronic', this.state);
+    });
   }
 
   handleLikeOptionChange = (option) => {
-    this.setState({ likeOption: option });
+    this.setState({ likeOption: option }, () => {
+      this.props.onChange('orderElectronic', this.state);
+    });
   }
 
   render = () => {
     const { production, classes } = this.props;
-    const { burnDisk, likeOption, additionalInstruction, file, price } = this.state;
+    const { burnDisk, likeOption, file, price } = this.state;
     let total = price;
-    if (likeOption === 1) {
-      total += 12.5
-    }
-    else if (likeOption === 2) {
-      total += 25;
-    }
-    else if (likeOption === 3) {
-      total += 25;
-    }
+    total += appUtils.linkOptionList[likeOption].price
+    
     return (
       <Grid container alignItems="center">
         <Grid item sm={3} xs={1} />
@@ -96,6 +90,9 @@ class ProductionOrder extends Component {
                 ` 
               }
             </Typography>
+          </Grid>
+          <Grid item sm={12} >
+            <Spacer size={30} />
           </Grid>
           <Grid item sm={12} >
             <Grid item sm={6} className={classNames(classes.colorCustomizeTitle)}>
@@ -138,41 +135,41 @@ class ProductionOrder extends Component {
               <FormControlLabel
                 control={
                   <Radio
-                    checked={likeOption === 1}
-                    onChange={() => this.handleLikeOptionChange(1)}
+                    checked={likeOption === 0}
+                    onChange={() => this.handleLikeOptionChange(0)}
                     value={"ReleaseImage"}
                     color="default"
                     name="radio-button-demo"
                     aria-label={"ReleaseImage"}
                   />
                 }
-                label="Release of images from order only as E-mail or CD(+$12.5)"
+                label={appUtils.linkOptionList[0].caption}
               />
               <FormControlLabel
                 control={
                   <Radio
-                    checked={likeOption === 2}
-                    onChange={() => this.handleLikeOptionChange(2)}
+                    checked={likeOption === 1}
+                    onChange={() => this.handleLikeOptionChange(1)}
                     value={"PhotoShootOnly"}
                     color="default"
                     name="radio-button-demo"
                     aria-label={"PhotoShootOnly"}
                   />
                 }
-                label="Photo shoot only(DVD only)(+$25.00)"
+                label={appUtils.linkOptionList[1].caption}
               />
               <FormControlLabel
                 control={
                   <Radio
-                    checked={likeOption === 3}
-                    onChange={() => this.handleLikeOptionChange(3)}
+                    checked={likeOption === 2}
+                    onChange={() => this.handleLikeOptionChange(2)}
                     value={"Both"}
                     color="default"
                     name="radio-button-demo"
                     aria-label={"Both"}
                   />
                 }
-                label="Both release of images and photo shoot (DVD only)(+$25.00)"
+                label={appUtils.linkOptionList[2].caption}
               />
             </Grid>
           </Grid>
@@ -185,11 +182,18 @@ class ProductionOrder extends Component {
                 ref={this.dropzoneRef}
                 maxFiles={1}
                 onDrop={this.onPreviewDrop}
+                accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
               >
                 {({getRootProps, getInputProps}) => (
                   <div className={classNames(classes.additionalContainer)} {...getRootProps()}>
-                    <Typography className={classNames(classes.addImageText, classes.colorBlack)}>
-                      { `Add your file` }
+                    <div className={classNames(classes.addImageIcon)}>
+                      <AddIcon className={classes.largeIcon} />
+                    </div>
+                    <Typography className={classNames(classes.addImageText, classes.colorBlack, classes.inlineText)}>
+                      { `Add your file ` }
+                    </Typography>
+                    <Typography className={classNames(classes.itemTitleTextSmall, classes.colorBlack, classes.inlineText)}>
+                      {`(*.txt, *.pdf, *.doc, *.docx)`}
                     </Typography>
                     <input {...getInputProps()} />
                   </div>
@@ -208,9 +212,6 @@ class ProductionOrder extends Component {
                 </Grid>
               )}
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className={classNames(classes.totalPrice)}>{`Sub Total: $ ${total.toFixed(2)}`}</Typography>
           </Grid>
         </Grid>
       </Grid>

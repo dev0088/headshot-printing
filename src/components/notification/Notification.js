@@ -158,7 +158,6 @@ class Notifications extends React.Component {
   render() {
     const { classes } = this.props;
     const { open, type, message, duration } = this.state;
-
     return (
       <div>
         <Snackbar

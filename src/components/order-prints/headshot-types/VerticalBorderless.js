@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
-import styled from 'styled-components';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -17,7 +16,7 @@ import * as appUtils from 'utils/appUtils';
 import CustomSelect from '../CustomSelect';
 import PreviewImg from 'components/common/styled/PreviewImage.js';
 
-class VerticalWithBorder extends Component {
+class VerticalBorderless extends Component {
   state = {
     firstname: '',
     lastname: '',
@@ -83,15 +82,6 @@ class VerticalWithBorder extends Component {
     });
   };
 
-  handleBorderColorChange = (color) => {
-    const { containerStyle } = this.state;
-    let newContainerStyle = Object.assign({}, containerStyle);
-    newContainerStyle.backgroundColor = color;
-    this.setState({ containerStyle: newContainerStyle }, () => {
-      this.props.onChange(this.state);
-    });
-  };
-
   handleMoveNameStyle = (name) => {
     const { captionStyle } = this.state;
     let newCaptionStyle = Object.assign({}, captionStyle);
@@ -122,61 +112,6 @@ class VerticalWithBorder extends Component {
       }
     }
     this.setState({captionStyle: newCaptionStyle, moveName: name}, () => {
-      this.props.onChange(this.state);
-    });
-  };
-
-  handlePlacementChange = (place) => {
-    const { containerStyle, imageStyle, captionStyle } = this.state;
-    let newContainerStyle = Object.assign({}, containerStyle);
-    let newCaptionStyle = Object.assign({}, captionStyle);
-    let newImageStyle = Object.assign({}, imageStyle);
-    if (place === 'On Border') {
-      newContainerStyle.padding = '30px 24px 30px 24px';
-      newCaptionStyle.position = null;
-      newCaptionStyle.top = null;
-      newCaptionStyle.bottom = -3;
-      newCaptionStyle.right = 0;
-    } else {
-      newCaptionStyle.top = null;
-      newCaptionStyle.bottom = 33;
-      newCaptionStyle.right = 12;
-    }
-    this.setState({
-      containerStyle: newContainerStyle,
-      captionStyle: newCaptionStyle,
-      imageStyle: newImageStyle,
-      placement: place
-    }, () => {
-      this.props.onChange(this.state);
-    });
-  };
-
-  handleLineColorChange = (lineC) => {
-    const { imageStyle } = this.state;
-    let newImageStyle = Object.assign({}, imageStyle);
-    
-    if (lineC === 'Black Line') {
-      newImageStyle['outline'] = `3px solid black`;
-      newImageStyle['outlineOffset'] = '-3px';
-    } else if (lineC === 'White Line') {
-      newImageStyle['outline'] = `3px solid white`;
-      newImageStyle['outlineOffset'] = '-3px';
-    } else if (lineC === 'No Line') {
-      newImageStyle['outline'] = null;
-      newImageStyle['outlineOffset'] = null;
-    }
-
-    this.setState({
-      imageStyle: newImageStyle,
-      lineColor: lineC
-    }, () => {
-      this.props.onChange(this.state);
-    });
-  };
-
-  handleToggleCover = (event) => {
-    this.setState({ checkedCover: event.target.checked }, () => {
       this.props.onChange(this.state);
     });
   };
@@ -310,39 +245,6 @@ class VerticalWithBorder extends Component {
           </Grid>
           <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
             <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-              { `Border Color` }
-            </Grid>
-            <Grid item sm={8}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={containerStyle.backgroundColor === appUtils.Color.white}
-                    onChange={() => this.handleBorderColorChange(appUtils.Color.white)}
-                    value={appUtils.Color.white}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"White"}
-                  />
-                }
-                label="white"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={containerStyle.backgroundColor === appUtils.Color.black}
-                    onChange={() => this.handleBorderColorChange(appUtils.Color.black)}
-                    value={appUtils.Color.black}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"Black"}
-                  />
-                }
-                label="black"
-              />
-            </Grid>
-          </Grid>
-          <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-            <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
               { `Change Text Color` }
             </Grid>
             <Grid item sm={8}>
@@ -386,85 +288,6 @@ class VerticalWithBorder extends Component {
               />
             </Grid>
           </Grid>
-          <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-            <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-              { `Name Placement` }
-            </Grid>
-            <Grid item sm={8}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={placement === 'On Border'}
-                    onChange={() => this.handlePlacementChange('On Border')}
-                    value={"On Border"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"On Border"}
-                  />
-                }
-                label="On Border"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={placement === 'On Image'}
-                    onChange={() => this.handlePlacementChange('On Image')}
-                    value={"On Image"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"On Image"}
-                  />
-                }
-                label="On Image"
-              />
-            </Grid>
-          </Grid>
-          <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-            <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-              { `Line Color` }
-            </Grid>
-            <Grid item sm={8}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={lineColor === 'Black Line'}
-                    onChange={() => this.handleLineColorChange('Black Line')}
-                    value={"Black Line"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"Black Line"}
-                  />
-                }
-                label="Black Line"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={lineColor === 'White Line'}
-                    onChange={() => this.handleLineColorChange('White Line')}
-                    value={"White Line"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"White Line"}
-                  />
-                }
-                label="White Line"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={lineColor === 'No Line'}
-                    onChange={() => this.handleLineColorChange('No Line')}
-                    value={"No Line"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"No Line"}
-                  />
-                }
-                label="No Line"
-              />
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
     );
@@ -485,5 +308,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(VerticalWithBorder));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(VerticalBorderless));
 

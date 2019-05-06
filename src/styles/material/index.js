@@ -582,7 +582,7 @@ export const materialStyles = theme => ({
   previewStyle: {
     width: 160,
     height: 200,
-    objectFit: 'cover'
+    objectFit: 'contain'
   },
   previewClose: {
     cursor: 'pointer',
@@ -636,8 +636,15 @@ export const materialStyles = theme => ({
     height: 300,
   },
   itemLayoutImage: {
+    marginBottom: 15,
+    position: 'relative',
+    '& img': {
+      width: '100%',
+      maxHeight: 200,
+    }
+  },
+  itemLayoutImageWithBorder: {
     border: '1px solid #222',
-    padding: 8,
     marginBottom: 15,
     position: 'relative',
     '& img': {
@@ -656,18 +663,22 @@ export const materialStyles = theme => ({
     justifyContent: 'center'
   },
   itemRealImage: {
-    // border: '4px solid #0000001f',
     position: 'relative',
-    '& img': {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover'
-    }
   },
   itemRealImageName: {
     position: 'relative',
     bottom: 10,
     fontSize: 16,
+  },
+  proofImageContainerGridItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
+  proofImageView: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain'
   },
   loadingProgress: {
     color: '#6798e5',
@@ -712,8 +723,34 @@ export const materialStyles = theme => ({
   colorTitle: {
     color: '#4e321f',
   },
+  reviewProcedureTitleContainer: {
+    display: 'flex',
+    minHeight: 56,
+    alignItems: 'flex-end'
+  },
+  reviewGridItemContainer: {
+    display: 'flex',
+    minHeight: 33
+  },
+  reviewItemTitle: {
+    alignSelf: 'center',
+    color: '#218fff',
+    fontSize: 16,
+    '& > label': {
+      marginLeft: 0,
+    }
+  },
+  reviewItemValueText: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
   additionalContainer: {
-
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    display: 'flex',
+    flexDirection: 'row',
+    height: 70,
   },
   filePathContainer: {
     display: 'flex',

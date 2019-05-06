@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
-import styled from 'styled-components';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -17,7 +16,7 @@ import * as appUtils from 'utils/appUtils';
 import CustomSelect from '../CustomSelect';
 import PreviewImg from 'components/common/styled/PreviewImage.js';
 
-class VerticalWithBorder extends Component {
+class HorizontalBorderless extends Component {
   state = {
     firstname: '',
     lastname: '',
@@ -94,8 +93,7 @@ class VerticalWithBorder extends Component {
 
   handleMoveNameStyle = (name) => {
     const { captionStyle } = this.state;
-    let newCaptionStyle = Object.assign({}, captionStyle);
-    
+    let newCaptionStyle = Object.assign({}, captionStyle);;
     if (name === 'Lower Top') {
       if (newCaptionStyle['top']) {
         newCaptionStyle['top'] -= 10;
@@ -195,7 +193,7 @@ class VerticalWithBorder extends Component {
 
     return (
       <Grid item xs={12} className={classNames(classes.flexContainer)}>
-        <Grid item sm={6} className={classNames(classes.reviewImageContainerGridItem)}>
+        <Grid item lg={7} md={7} sm={12} className={classNames(classes.reviewImageContainerGridItem)}>
           <div id="preview-headshot" className={classNames(classes.itemRealImage)} style={containerStyle}>
             <ImageLoader
               src={(production.uploadImageUrl && production.uploadImageUrl.preview) ? production.uploadImageUrl.preview : require(`images/missing.png`)}
@@ -221,7 +219,7 @@ class VerticalWithBorder extends Component {
             </Typography>
           </div>
         </Grid>
-        <Grid item sm={6} className={classNames(classes.descriptionContainer)}>
+        <Grid item lg={5} md={5} sm={12} className={classNames(classes.descriptionContainer)}>
           <Typography className={classNames(classes.customizeTitle)}>
             Customize Your Layout
           </Typography>
@@ -310,39 +308,6 @@ class VerticalWithBorder extends Component {
           </Grid>
           <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
             <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-              { `Border Color` }
-            </Grid>
-            <Grid item sm={8}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={containerStyle.backgroundColor === appUtils.Color.white}
-                    onChange={() => this.handleBorderColorChange(appUtils.Color.white)}
-                    value={appUtils.Color.white}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"White"}
-                  />
-                }
-                label="white"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={containerStyle.backgroundColor === appUtils.Color.black}
-                    onChange={() => this.handleBorderColorChange(appUtils.Color.black)}
-                    value={appUtils.Color.black}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"Black"}
-                  />
-                }
-                label="black"
-              />
-            </Grid>
-          </Grid>
-          <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-            <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
               { `Change Text Color` }
             </Grid>
             <Grid item sm={8}>
@@ -386,85 +351,6 @@ class VerticalWithBorder extends Component {
               />
             </Grid>
           </Grid>
-          <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-            <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-              { `Name Placement` }
-            </Grid>
-            <Grid item sm={8}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={placement === 'On Border'}
-                    onChange={() => this.handlePlacementChange('On Border')}
-                    value={"On Border"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"On Border"}
-                  />
-                }
-                label="On Border"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={placement === 'On Image'}
-                    onChange={() => this.handlePlacementChange('On Image')}
-                    value={"On Image"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"On Image"}
-                  />
-                }
-                label="On Image"
-              />
-            </Grid>
-          </Grid>
-          <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-            <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-              { `Line Color` }
-            </Grid>
-            <Grid item sm={8}>
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={lineColor === 'Black Line'}
-                    onChange={() => this.handleLineColorChange('Black Line')}
-                    value={"Black Line"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"Black Line"}
-                  />
-                }
-                label="Black Line"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={lineColor === 'White Line'}
-                    onChange={() => this.handleLineColorChange('White Line')}
-                    value={"White Line"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"White Line"}
-                  />
-                }
-                label="White Line"
-              />
-              <FormControlLabel
-                control={
-                  <Radio
-                    checked={lineColor === 'No Line'}
-                    onChange={() => this.handleLineColorChange('No Line')}
-                    value={"No Line"}
-                    color="default"
-                    name="radio-button-demo"
-                    aria-label={"No Line"}
-                  />
-                }
-                label="No Line"
-              />
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
     );
@@ -485,5 +371,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(VerticalWithBorder));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(HorizontalBorderless));
 

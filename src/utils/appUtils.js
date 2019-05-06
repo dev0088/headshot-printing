@@ -8,10 +8,10 @@ export const getSteps = () => {
   return [
     '1. Select quantity', 
     '2. Input your info', 
-    '3. Upload your photo', 
-    '4. Review',
-    '5. Proof',
-    '6. Check out'
+    '3. Design', 
+    '4. Order electronic',
+    '5. Review',
+    '6. Payment'
   ];
 };
 
@@ -49,88 +49,198 @@ export const LineColorList = [
 ]
 
 export const Color = {
-  white: '#ffffff',
-  black: '#000000'
+  white: 'white',
+  black: 'black'
 };
-
 
 export const reviewLayout = [
   {
     title: 'Vertical With Border',
-    photo: 'photo1.jpg',
+    photo: 'headshot-vertical-with-borders.jpg',
+    isBorder: true,
     id: '0',
     style: {
-      textAlign: 'right',
-      right: 8,
       containerStyle: {
         width: 400,
+        minWidth: 400,
         height: 500,
-        padding: 25,
+        padding: '30px 24px 30px 24px',
         backgroundColor: Color.white,
-        borderColor: Color.black,
-        // border: `2 px ${Color.black}`
-        border: '4px solid'
+        border: `2px solid ${Color.black}`
       },
       captionStyle: {
         fontFamily: FontFamilyList[0].id,
         textTransform: TextStyleList[0].id,
         color: Color.black,
-        bottom: 0,
-        top: 0,
+        bottom: -3,
         right: 0,
         textAlign: 'right'
       },
       imageStyle: {
-        width: 380,
-        height: 480,
-        objectFit: 'cover',
-        borderColor: Color.white,
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover'
       }
     },
   },
   {
     title: 'Horizontal with Borders',
-    photo: 'photo2.jpg',
+    photo: 'headshot-horizontal-with-borders.jpg',
+    isBorder: true,
     id: '1',
     style: {
-      textAlign: 'left',
-      left: 8,
-    },
+      containerStyle: {
+        width: 500,
+        minWidth: 500,
+        height: 400,
+        padding: '30px 24px 30px 24px',
+        backgroundColor: Color.white,
+        border: `2px solid ${Color.black}`
+      },
+      captionStyle: {
+        fontFamily: FontFamilyList[0].id,
+        textTransform: TextStyleList[0].id,
+        color: Color.black,
+        bottom: -3,
+        left: 0,
+        textAlign: 'left'
+      },
+      imageStyle: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover'
+      }
+    }
   },
   {
     title: 'Horizontal on Vertical Border',
-    photo: 'photo3.jpg',
+    photo: 'headshot-horizontal-on-vertical-border.jpg',
+    isBorder: true,
     id: '2',
     style: {
-      textAlign: 'left',
-      left: 8,
+      containerStyle: {
+        width: 400,
+        minWidth: 400,
+        height: 500,
+        padding: '30px 24px 30px 24px',
+        backgroundColor: Color.white,
+        border: `2px solid ${Color.black}`
+      },
+      captionStyle: {
+        fontFamily: FontFamilyList[0].id,
+        textTransform: TextStyleList[0].id,
+        color: Color.black,
+        bottom: -3,
+        left: 0,
+        textAlign: 'left'
+      },
+      imageStyle: {
+        width: '100%',
+        height: 282,
+        objectFit: 'cover',
+        outline: `3px solid ${Color.black}`,
+        outlineOffset: '-3px'
+      }
     },
   },
   {
     title: 'Vertical Borderless',
-    photo: 'photo4.jpg',
+    photo: 'headshot-vertical-borderless.jpg',
+    isBorder: false,
     id: '3',
     style: {
-      textAlign: 'left',
-      left: 8,
+      containerStyle: {
+        width: 400,
+        minWidth: 400,
+        height: 500,
+        padding: 0,
+        backgroundColor: Color.white,
+      },
+      captionStyle: {
+        fontFamily: FontFamilyList[0].id,
+        textTransform: TextStyleList[0].id,
+        color: Color.white,
+        bottom: 33,
+        left: 12,
+        textAlign: 'left'
+      },
+      imageStyle: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover'
+      }
     },
   },
   {
     title: 'Horizontal Borderless',
-    photo: 'photo5.jpg',
+    photo: 'headshot-horizontal-borderless.jpg',
+    isBorder: false,
     id: '4',
     style: {
-      textAlign: 'right',
-      right: 8,
-    },
+      containerStyle: {
+        width: 500,
+        minWidth: 500,
+        height: 400,
+        padding: 0,
+        backgroundColor: Color.white
+      },
+      captionStyle: {
+        fontFamily: FontFamilyList[0].id,
+        textTransform: TextStyleList[0].id,
+        color: Color.white,
+        bottom: 33,
+        right: 12,
+        textAlign: 'right'
+      },
+      imageStyle: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover'
+      }
+    }
   },
   {
     title: 'Horizontal on Vertical Bleed',
-    photo: 'photo6.jpg',
+    photo: 'headshot-horizontal-on-vertical-bleed.jpg',
+    isBorder: true,
     id: '5',
     style: {
-      textAlign: 'left',
-      left: 8,
+      containerStyle: {
+        width: 400,
+        minWidth: 400,
+        height: 500,
+        padding: '30px 0px 30px 0px',
+        backgroundColor: Color.white,
+        border: `2px solid ${Color.black}`
+      },
+      captionStyle: {
+        fontFamily: FontFamilyList[0].id,
+        textTransform: TextStyleList[0].id,
+        color: Color.black,
+        bottom: -3,
+        left: 12,
+        textAlign: 'left'
+      },
+      imageStyle: {
+        width: '100%',
+        height: 282,
+        objectFit: 'cover'
+      }
     },
   }
+];
+
+export const linkOptionList = [
+  {id: 0, caption: 'Release of images from order only as E-mail or CD(+$12.5)', price: 12.5},
+  {id: 1, caption: 'Photo shoot only(DVD only)(+$25.00)', price: 25},
+  {id: 2, caption: 'Both release of images and photo shoot (DVD only)(+$25.00)', price: 25}
 ]
+
+export const makeFullName = (firstName, middleName, lastName) => {
+  let res = '';
+  if (firstName) res = firstName;
+  if (middleName) res = `${res} middleName`;
+  if (lastName) res = `${res} lastName`;
+  return res;
+}
+

@@ -36,6 +36,8 @@ class OrderPrints extends Component {
     fileName: '',
     email: '',
     headshot: null,
+    design: {},
+    orderElectronic: {},
     paid: false
   };
 

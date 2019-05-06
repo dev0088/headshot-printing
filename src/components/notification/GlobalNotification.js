@@ -7,7 +7,8 @@ import * as globalNotificationActions from 'actions/globalNotificationActions';
 
 class GlobalNotification extends Component {
 
-  onClose = () => this.props.globalNotificationActions.notify(false, 'info', 'closing this notification.');
+  onClose = () => {} 
+  //this.props.globalNotificationActions.notify(false, 'info', 'closing this notification.');
 
   render() {
     const { open, type, message } = this.props;

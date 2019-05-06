@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
-import styled from 'styled-components';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -17,7 +16,7 @@ import * as appUtils from 'utils/appUtils';
 import CustomSelect from '../CustomSelect';
 import PreviewImg from 'components/common/styled/PreviewImage.js';
 
-class VerticalWithBorder extends Component {
+class HorizontalOnVerticalBleed extends Component {
   state = {
     firstname: '',
     lastname: '',
@@ -94,8 +93,7 @@ class VerticalWithBorder extends Component {
 
   handleMoveNameStyle = (name) => {
     const { captionStyle } = this.state;
-    let newCaptionStyle = Object.assign({}, captionStyle);
-    
+    let newCaptionStyle = Object.assign({}, captionStyle);;
     if (name === 'Lower Top') {
       if (newCaptionStyle['top']) {
         newCaptionStyle['top'] -= 10;
@@ -192,10 +190,10 @@ class VerticalWithBorder extends Component {
     if (firstname.length > 0) yourName = firstname + ' ';
     if (middlename.length > 0) yourName += middlename + ' ';
     if (lastname.length > 0) yourName += lastname + ' ';
-
+    
     return (
       <Grid item xs={12} className={classNames(classes.flexContainer)}>
-        <Grid item sm={6} className={classNames(classes.reviewImageContainerGridItem)}>
+        <Grid item lg={7} md={7} sm={12} className={classNames(classes.reviewImageContainerGridItem)}>
           <div id="preview-headshot" className={classNames(classes.itemRealImage)} style={containerStyle}>
             <ImageLoader
               src={(production.uploadImageUrl && production.uploadImageUrl.preview) ? production.uploadImageUrl.preview : require(`images/missing.png`)}
@@ -221,7 +219,7 @@ class VerticalWithBorder extends Component {
             </Typography>
           </div>
         </Grid>
-        <Grid item sm={6} className={classNames(classes.descriptionContainer)}>
+        <Grid item lg={5} md={5} sm={12} className={classNames(classes.descriptionContainer)}>
           <Typography className={classNames(classes.customizeTitle)}>
             Customize Your Layout
           </Typography>
@@ -485,5 +483,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(VerticalWithBorder));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(materialStyles)(HorizontalOnVerticalBleed));
 

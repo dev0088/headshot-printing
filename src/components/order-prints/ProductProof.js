@@ -1,354 +1,137 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import styled from 'styled-components';
+import ImageLoader from 'react-loading-image';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Radio from '@material-ui/core/Radio';
-import Checkbox from '@material-ui/core/Checkbox';
-import ImageLoader from 'react-loading-image';
+import CustomReviewItem from './CustomReviewItem';
+import Spacer from 'components/common/material/Spacer';
 import * as appUtils from 'utils/appUtils';
 import { materialStyles } from 'styles/material/index';
 
-const PreviewImg = styled.div`
-  background-image: url(${props => props.src});
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-size: cover;
-  background-repeat: no-repeat;
-`;
-
 class ProductProof extends Component {
-  state = {
-    containerStyle: {},
-    captionStyle: {},
-    imageStyle: {},
-    imageClassNames: {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover'
-    }
-  };
-
-  componentWillMount() {
-    this.setState({
-      containerStyle: appUtils.reviewLayout[0].style.containerStyle,
-      captionStyle: appUtils.reviewLayout[0].style.captionStyle,
-      imageStyle: appUtils.reviewLayout[0].style.imageStyle,
-      imageClassNames: null
-    })
-  }
-
   render = () => {
-    const { containerStyle, captionStyle, imageStyle } = this.state;
-    const { data, production, classes } = this.props;
+    const { data, classes } = this.props;
     const { 
-      firstname, middlename, lastname, 
-      // fontFamily, textStyle, borderColor, textColor,
-      moveName, placement, lineColor, checkedCover,
-      uploadImageUrl: photo,
-    } = data;
+      production, design, orderElectronic, email, quantityId, headshot,
+      firstname, lastname, middlename, 
+     } = data;
+    const {
+      moveName, placement, lineColor, 
+      styleValue, checkedCover,
+      containerStyle, captionStyle, imageStyle
+    } = design;
+    const { reviewLayout } = appUtils;
+    
     let amount = 0;
     let price = 0;
-    let currentQuantiry = production.production ? 
-      production.production.production_quantities.find(quantity => {return quantity.id === production.quantityId;}) : 
+    let currentQuantiry = production ? 
+      production.production_quantities.find(quantity => {return quantity.id === quantityId;}) : 
       null;
-    if (currentQuantiry) {
+    
+    if (currentQuantiry && (currentQuantiry.plus_price !== null)) {
       amount = currentQuantiry.amount;
-      price = currentQuantiry.plus_price;
+      price = parseFloat(currentQuantiry.plus_price);
     }
 
-    let styleValue = data.styleValue ? data.styleValue : 0;
-    let yourName = '';
-    if (firstname && firstname.length > 0) yourName = firstname + ' ';
-    if (middlename && middlename.length > 0) yourName += middlename + ' ';
-    if (lastname && lastname.length > 0) yourName += lastname + ' ';
-    const { reviewLayout } = appUtils;
+    let total = price;
+    if (appUtils.linkOptionList[orderElectronic.likeOption] && appUtils.linkOptionList[orderElectronic.likeOption].price)
+      total += appUtils.linkOptionList[orderElectronic.likeOption].price;
+    if (production && production.price)
+      total += parseFloat(production.price);
+    total = total ? total.toFixed(2) : 0;
 
     return (
-      <Grid container alignItems="center" className={classNames(classes.swipeableGridContainer)}>
-        <Grid item xs={12} sm={10} className={classNames(classes.flexContainer)}>
-          <Grid item sm={5} className={classNames(classes.reviewImageContainerGridItem)}>
-            <div className={classNames(classes.itemRealImage)}>
-              <ImageLoader
-                src={(production && production.headshot && production.headshot.cloudinary_image_url) ? production.headshot.cloudinary_image_url : require(`images/missing.png`)}
-                
-                loading={() => 
-                  <div style={imageStyle}>
-                    <CircularProgress
-                      variant="indeterminate"
-                      className={classes.loadingProgress}
-                      disableShrink
-                      size={60}
-                      thickness={4}
-                    />
-                  </div>
-                }
-                error={() => <div>Error</div>} 
-              />
-            </div>
-          </Grid>
-          <Grid item sm={7} className={classNames(classes.descriptionContainer)}>
+      <Grid container alignItems="center">
+        <Grid item sm={1}/>
+        <Grid item xs={12} sm={10} className={classNames(classes.swipeableGridContainer)}>
+          <Grid container space={16} className={classNames(classes.flexContainer)}>
+            <Grid item sm={5} className={classNames(classes.proofImageContainerGridItem, classes.descriptionContainer)}>
+              <div className={classNames(classes.itemRealImage)}>
+                <ImageLoader
+                  src={(headshot && headshot.cloudinary_image_url) ? headshot.cloudinary_image_url : require(`images/missing.png`)}
+                  className={classNames(classes.proofImageView)}
+                  loading={() => 
+                    <div style={imageStyle}>
+                      <CircularProgress
+                        variant="indeterminate"
+                        className={classes.loadingProgress}
+                        disableShrink
+                        size={60}
+                        thickness={4}
+                      />
+                    </div>
+                  }
+                  error={() => <div>Error</div>}
+                />
+              </div>
+            </Grid>
+            <Grid item sm={7} className={classNames(classes.descriptionContainer)}>
             <Typography className={classNames(classes.customizeTitle)}>
               Review Your Order
             </Typography>
             <Typography className={classNames(classes.customizeDescription)}>
               It looks like we have gone over everything we need to proceed with your order. Please take a moment to review the details below and confirm that everything is correct. You can make changes using the buttons provided to return to a previous section.
             </Typography>
-            
-            <Grid item sm={12} className={classNames(classes.flexContainer)}>
+            <Grid item sm={12}>
+              <Spacer size={30} />
+            </Grid>
+            <Grid item sm={12} className={classNames(classes.reviewProcedureTitleContainer)}>
               <Typography className={classNames(classes.customizeTitle)}>
-                { `Headshots` }
+                { `Printing service` }
               </Typography>
             </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Quantity: ` }
-              </Grid>
-              <Grid item sm={8}>
-                {captionStyle.fontFamily}
-              </Grid>
+            <CustomReviewItem name={'Price'} value={(production && production.price) ? production.price : 0} />
+
+            <Grid item sm={12} className={classNames(classes.reviewProcedureTitleContainer)}>
+              <Typography className={classNames(classes.customizeTitle)}>
+                { `Quantity` }
+              </Typography>
             </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer)}>
-              <Grid item sm={4}>
-                <TextField
-                  id="firstname"
-                  type="text"
-                  placeholder="First Name"
-                  fullWidth
-                  disabled
-                  margin="normal"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={firstname}
-                  className={classNames(classes.formControl, classes.formTextControl)}
-                />
-              </Grid>
-              <Grid item sm={4}>
-                <TextField
-                  id="middlename"
-                  type="text"
-                  placeholder="Middle Name"
-                  fullWidth
-                  disabled
-                  margin="normal"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={middlename}
-                  className={classNames(classes.formControl, classes.formTextControl)}
-                />
-              </Grid>
-              <Grid item sm={4}>
-                <TextField
-                  id="lastname"
-                  type="text"
-                  placeholder="Last Name"
-                  fullWidth
-                  disabled
-                  margin="normal"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={lastname}
-                  className={classNames(classes.formControl, classes.formTextControl)}
-                />
-              </Grid>
+            <CustomReviewItem name={'Amount'} value={amount} />
+            <CustomReviewItem name={'Price'} value={`$${price}`} />
+
+            <Grid item sm={12} className={classNames(classes.reviewProcedureTitleContainer)}>
+              <Typography className={classNames(classes.customizeTitle)}>
+                { `Your info` }
+              </Typography>
             </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Change Font` }
-              </Grid>
-              <Grid item sm={8}>
-                {captionStyle.fontFamily}
-              </Grid>
+            <CustomReviewItem name={'Your name'} value={appUtils.makeFullName(firstname, middlename, lastname)} />
+            <CustomReviewItem name={'Your email'} value={email} />
+            
+            <Grid item sm={12} className={classNames(classes.reviewProcedureTitleContainer)}>
+              <Typography className={classNames(classes.customizeTitle)}>
+                { `Designs` }
+              </Typography>
             </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Change case` }
-              </Grid>
-              <Grid item sm={8}>
-                { captionStyle.textTransform }
-              </Grid>
+            <CustomReviewItem name={'Layout'} value={reviewLayout[styleValue] ? reviewLayout[styleValue].title : ''} />
+            <CustomReviewItem name={'Font'} value={captionStyle ? captionStyle.fontFamily : ''} />
+            <CustomReviewItem name={'Case'} value={captionStyle ? captionStyle.textTransform : ''} />
+            <CustomReviewItem name={'Border Color'} value={captionStyle ? containerStyle.borderColor : ''} />
+            <CustomReviewItem name={'Text Color'} value={captionStyle ? captionStyle.color : ''} />
+            <CustomReviewItem name={'Move name'} value={moveName} />
+            <CustomReviewItem name={'Name Placement'} value={placement} />
+            <CustomReviewItem name={'Line Color'} value={lineColor} />
+            <CustomReviewItem name={'Cover image to black and white'} value={checkedCover ? 'Yes' : 'No'} />
+
+            <Grid item sm={12} className={classNames(classes.reviewProcedureTitleContainer)}>
+              <Typography className={classNames(classes.customizeTitle)}>
+                { `Order electronics` }
+              </Typography>
             </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Border Color` }
-              </Grid>
-              <Grid item sm={8}>
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={captionStyle.color === 'white'}
-                      value={"White"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"White"}
-                      disabled
-                    />
-                  }
-                  label="white"
-                />
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={containerStyle.borderColor === 'black'}
-                      value={"Black"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"Black"}
-                      disabled
-                    />
-                  }
-                  label="black"
-                />
-              </Grid>
-            </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Change Text Color` }
-              </Grid>
-              <Grid item sm={8}>
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={captionStyle.color === 'black'}
-                      value={"Black"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"Black"}
-                      disabled
-                    />
-                  }
-                  label="white"
-                />
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={captionStyle.color === 'white'}
-                      value={"White"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"White"}
-                      disabled
-                    />
-                  }
-                  label="black"
-                />
-              </Grid>
-            </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Move name` }
-              </Grid>
-              <Grid item sm={8}>
-                {moveName}
-              </Grid>
-            </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Name Placement` }
-              </Grid>
-              <Grid item sm={8}>
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={placement === 'On Border'}
-                      value={"On Border"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"On Border"}
-                      disabled
-                    />
-                  }
-                  label="On Border"
-                />
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={placement === 'On Image'}
-                      value={"On Image"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"On Image"}
-                      disabled
-                    />
-                  }
-                  label="On Image"
-                />
-              </Grid>
-            </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer, classes.alignItemCenter)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Line Color` }
-              </Grid>
-              <Grid item sm={8}>
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={lineColor === 'Black Line'}
-                      value={"Black Line"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"Black Line"}
-                      disabled
-                    />
-                  }
-                  label="Black Line"
-                />
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={lineColor === 'White Line'}
-                      value={"White Line"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"White Line"}
-                      disabled
-                    />
-                  }
-                  label="White Line"
-                />
-                <FormControlLabel
-                  control={
-                    <Radio
-                      checked={lineColor === 'No Line'}
-                      value={"No Line"}
-                      color="default"
-                      name="radio-button-demo"
-                      aria-label={"No Line"}
-                      disabled
-                    />
-                  }
-                  label="No Line"
-                />
-              </Grid>
-            </Grid>
-            <Grid item sm={12} className={classNames(classes.flexContainer, classes.colorCustomizeTitle, classes.alignItemCenter)}>
-              <Grid item sm={4} className={classNames(classes.colorCustomizeTitle)}>
-                { `Cover image to black and white` }
-              </Grid>
-              <Grid item sm={8}>
-                <Checkbox
-                  checked={checkedCover}
-                  color="default"
-                  value="cover"
-                  style={{ padding: '0 10px' }}
-                  disabled
-                />
-              </Grid>
-            </Grid>
+            <CustomReviewItem name={'Burn a disk'} value={orderElectronic.burnDisk ? 'Yes' : 'No'} />
+            <CustomReviewItem name={'Please tell us what you would like'} 
+              value={appUtils.linkOptionList[orderElectronic.likeOption] ? appUtils.linkOptionList[orderElectronic.likeOption].caption : ''} 
+            />
+            <Grid item xs={12}>
+            <Typography className={classNames(classes.totalPrice)}>{`Sub Total: $${total}`}</Typography>
+          </Grid>
+          </Grid>
           </Grid>
         </Grid>
+        <Grid item sm={1}/>
       </Grid>
     );
   }
