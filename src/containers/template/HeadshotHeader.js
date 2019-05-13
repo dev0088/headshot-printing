@@ -207,7 +207,6 @@ class HeadshotHeader extends Component {
               <Typography
                 className={classNames(classes.brandTitle, classes.topbarDynamicShow)}
               >
-                {'REPRODUCTION'}
               </Typography>
               {/* <img className={classes.brandImage}
                 alt="Logo"
@@ -220,10 +219,6 @@ class HeadshotHeader extends Component {
             <Hidden only={['md', 'sm', 'xs']}>
               <div className={classNames(classes.topbarDynamicShow, )}>
                 {this.renderTopbarMenuItem('HOME', '/')}
-                {this.renderTopbarMenuItem('PRINTING', '/order-prints')}
-                {this.renderTopbarMenuItem('RETOUCHING', '/retouching')}
-                {this.renderTopbarMenuItem('VIDEO SERVICES', '/video-services')}
-                {this.renderTopbarMenuItem('FIND A PHOTOGRAPHER', '/find-photographer')}
                 {this.renderTopbarMenuItem('CONTACT', '/contact')}
               </div>
             </Hidden>

@@ -6,6 +6,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Radio from '@material-ui/core/Radio';
+import Button from '@material-ui/core/Button';
+import StripeCheckoutButton from './stripe/StripeCheckoutButton';
 import * as productionActions from 'actions/productionActions';
 import { materialStyles } from 'styles/material/index';
 import * as appUtils from 'utils/appUtils';
@@ -15,7 +17,6 @@ import HorizontalOnVerticalBorder from './headshot-types/HorizontalOnVerticalBor
 import VerticalBorderless from './headshot-types/VerticalBorderless';
 import HorizontalBorderless from './headshot-types/HorizontalBorderless';
 import HorizontalOnVerticalBleed from './headshot-types/HorizontalOnVerticalBleed';
-
 
 class ProductionDesign extends Component {
   state = {
@@ -34,6 +35,14 @@ class ProductionDesign extends Component {
   handleLayoutDesignChagne = (layout) => {
     this.setState({layout}, () => this.props.onChange('design', this.state));
   };
+
+  handleBack = () => {
+    this.props.handleBack();
+  }
+
+  handleNext = () => {
+    this.props.handleNext();
+  }
 
   renderDesign = (layoutIndex) => {
     let Designer = VerticalWithBorder;
@@ -69,7 +78,8 @@ class ProductionDesign extends Component {
     const { reviewLayout } = appUtils;
 
     return (
-      <Grid container alignItems="center">
+      <Grid>
+        <Grid container alignItems="center">
         <Grid item sm={1} />
         <Grid item xs={12} sm={10} className={classNames(classes.swipeableGridContainer)}>
           <Grid item xs={12} className={classNames(classes.sampleContainer)}>
@@ -97,6 +107,39 @@ class ProductionDesign extends Component {
         </Grid>
         <Grid item sm={1} />
       </Grid>
+        <Grid item xs={12} className={classes.centerText}>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          disabled={this.props.state.step === 0}
+          className={classes.nextButton}
+          onClick={this.handleBack}
+        >
+          { 'Back' }
+        </Button>
+        {
+          ((this.props.state.step === appUtils.getSteps().length - 1) && !this.props.state.paid) ? (
+            <StripeCheckoutButton 
+              headshot={this.props.state.headshot} 
+              amount={this.props.state.totalPrice} 
+              onCheckout={this.handleCheckout} 
+              onPayment={this.handlePayment}
+            />
+          ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            className={classes.nextButton}
+            onClick={this.handleNext}
+          >
+            { this.props.state.paid ? 'Finish' : 'Next' }
+          </Button>
+          )
+        }
+      </Grid> 
+    </Grid>     
     );
   }
 };

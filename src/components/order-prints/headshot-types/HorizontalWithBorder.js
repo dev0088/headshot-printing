@@ -118,7 +118,21 @@ class HorizontalWithBorder extends Component {
       } else {
         newCaptionStyle['right'] -= 10; 
       }
-    }
+    } else if (name === 'Left') { 
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] = 10;
+      } else {
+        newCaptionStyle['right'] = 350;
+      }
+    } else if (name === 'Right') {
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] = 350;
+        console.log('left');
+      } else {
+        newCaptionStyle['right'] = 10;
+        console.log('right');
+      }
+    } 
     this.setState({captionStyle: newCaptionStyle, moveName: name}, () => {
       this.props.onChange(this.state);
     });
@@ -163,7 +177,7 @@ class HorizontalWithBorder extends Component {
     } else if (lineC === 'No Line') {
       newImageStyle['outline'] = null;
       newImageStyle['outlineOffset'] = null;
-    }
+    } 
 
     this.setState({
       imageStyle: newImageStyle,
@@ -222,10 +236,6 @@ class HorizontalWithBorder extends Component {
         <Grid item lg={5} md={5} sm={12} className={classNames(classes.descriptionContainer)}>
           <Typography className={classNames(classes.customizeTitle)}>
             Customize Your Layout
-          </Typography>
-          <Typography className={classNames(classes.customizeDescription)}>
-            We set this ordering system to default to the most common layout.
-            Please make any of the changes you would like and click 'Apply'
           </Typography>
           <Grid item sm={12}>
             <Typography className={classNames(classes.customizeTextLabel, classes.colorCustomizeTitle)}>

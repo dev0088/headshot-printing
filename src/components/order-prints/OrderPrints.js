@@ -145,7 +145,7 @@ class OrderPrints extends Component {
     }
   };
 
-  handleBack = () => {
+    handleBack = () => {
     this.setState({
       step: this.state.step - 1,
     }, () => {
@@ -217,7 +217,8 @@ class OrderPrints extends Component {
     data.append('file', orderElectronic.file);
     data.append('fileName', 'headshot_doc');
     data.append('type', orderElectronic.file.type);
-    HeadshotAPI.uploadHeadshotDescriptionDoc(production.headshot.id, data, this.handleUploadDocResponse);          
+    HeadshotAPI.uploadHeadshotDescriptionDoc(production.headshot.id, data, this.handleUploadDocResponse);
+    console.log('----', this.state, production.headshot.id, data, this.handleUploadDocResponse);          
   }
 
   handleUploadDocResponse = (response, isFailed) => {
@@ -264,9 +265,22 @@ class OrderPrints extends Component {
                 onChangeQuantity={this.handleChangeQuantity}
                 order={order}
                 onChangeOrder={this.handleChangeOrder}
+                state={this.state}
+                handleNext = {this.handleNext}
+                handleBack = {this.handleBack}
               />
-              <ProductionUserInfo onChange={this.handleChange} />
-              <ProductionDesign photo={uploadImageUrl} onChange={this.handleChange} />
+              <ProductionUserInfo
+                onChange={this.handleChange}
+                state={this.state}
+                handleBack = {this.handleBack}
+                handleNext = {this.handleNext}
+              />
+              <ProductionDesign 
+                photo={uploadImageUrl}
+                onChange={this.handleChange}
+                state={this.state}
+                handleBack = {this.handleBack}
+                handleNext = {this.handleNext} />
               <ProductionOrder onChange={this.handleChange} />
               <ProductProof data={this.state} onChange={this.handleChange} />
             </SwipeableViews>
@@ -300,7 +314,7 @@ class OrderPrints extends Component {
                     {`Order Printing`}
                   </Typography>
                 </Grid>
-                <Grid item xs={6} className={classes.rightText}>
+                <Grid item xs={6} className={classes.centerText}>
                   <Button
                     variant="outlined"
                     color="primary"
@@ -347,6 +361,8 @@ class OrderPrints extends Component {
           >
             <Grid item xs={12}>
               { this.renderStepForm() }
+            </Grid>
+            <Grid item xs={6} className={classes.rightText}>
             </Grid>
           </Grid>
         </div>

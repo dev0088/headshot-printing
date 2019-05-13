@@ -76,22 +76,6 @@ class Home extends Component {
                             {'Order Print'}
                           </Button>
                         </Link>
-                        <Button
-                          variant="outlined"
-                          color="white"
-                          size="samll"
-                          className={classes.homeButton}
-                        >
-                          {'Order Retouching'}
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="white"
-                          size="samll"
-                          className={classes.homeButton}
-                        >
-                          {'Order Video Services'}
-                        </Button>
                       </div>
                     </Grid>
                   </Grid>
