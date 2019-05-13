@@ -8,6 +8,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from '@material-ui/core/Select';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { materialStyles } from 'styles/material/index';
+import Button from '@material-ui/core/Button';
+import StripeCheckoutButton from './stripe/StripeCheckoutButton';
+import * as appUtils from 'utils/appUtils';
+
 
 class SelectQuantity extends Component {
   state = {
@@ -32,6 +36,14 @@ class SelectQuantity extends Component {
     });
   };
 
+  handleNext = () => {
+    this.props.handleNext();
+  }
+
+  handleBack = () => {
+    this.props.handleBack();
+  }
+
   render = () => {
     const { production, classes } = this.props;
     const { quantityId } = this.state;
@@ -45,8 +57,8 @@ class SelectQuantity extends Component {
 
     return (
       <Grid container alignItems="center">
-        <Grid item xl={1} lg={1} md={1} sm={1} xs={1} />
-        <Grid item xl={2} lg={3} md={6} sm={7} xs={10} className={classNames(classes.swipeableGridContainer, )}>
+        <Grid item xl={3} lg={3} md={2} sm={1} xs={1} />
+        <Grid item xl={6} lg={6} md={8} sm={10} xs={10} className={classNames(classes.swipeableGridContainer, )}>
           <Typography className={classNames(classes.itemTitleText, classes.colorBlack)}>
             { `Quantity` }
           </Typography>
@@ -66,6 +78,39 @@ class SelectQuantity extends Component {
             </Select>
           </FormControl>
         </Grid>
+        <Grid item xl={3} lg={3} md={2} sm={1} xs={1} />
+        <Grid item xs={12} className={classes.centerText}>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            disabled={this.props.state.step === 0}
+            className={classes.nextButton}
+            onClick={this.handleBack}
+          >
+            { 'Back' }
+          </Button>
+          {
+            ((this.props.state.step === appUtils.getSteps().length - 1) && !this.props.state.paid) ? (
+              <StripeCheckoutButton 
+                headshot={this.props.state.headshot} 
+                amount={this.props.state.totalPrice} 
+                onCheckout={this.handleCheckout} 
+                onPayment={this.handlePayment}
+              />
+            ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              className={classes.nextButton}
+              onClick={this.handleNext}
+            >
+              { this.props.state.paid ? 'Finish' : 'Next' }
+            </Button>
+            )
+          }
+        </Grid> 
       </Grid>
     );
   }

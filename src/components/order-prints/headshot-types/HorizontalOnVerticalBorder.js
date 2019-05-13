@@ -93,7 +93,8 @@ class HorizontalOnVerticalBorder extends Component {
 
   handleMoveNameStyle = (name) => {
     const { captionStyle } = this.state;
-    let newCaptionStyle = Object.assign({}, captionStyle);;
+    let newCaptionStyle = Object.assign({}, captionStyle);
+    console.log('name',captionStyle);
     if (name === 'Lower Top') {
       if (newCaptionStyle['top']) {
         newCaptionStyle['top'] -= 10;
@@ -118,7 +119,19 @@ class HorizontalOnVerticalBorder extends Component {
       } else {
         newCaptionStyle['right'] -= 10; 
       }
-    }
+    } else if (name === 'Left') { 
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] = 10;
+      } else {
+        newCaptionStyle['right'] = 250;
+      }
+    } else if (name === 'Right') {
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] = 250;
+      } else {
+        newCaptionStyle['right'] = 10;
+      }
+    } 
     this.setState({captionStyle: newCaptionStyle, moveName: name}, () => {
       this.props.onChange(this.state);
     });
@@ -222,10 +235,6 @@ class HorizontalOnVerticalBorder extends Component {
         <Grid item lg={5} md={5} sm={12} className={classNames(classes.descriptionContainer)}>
           <Typography className={classNames(classes.customizeTitle)}>
             Customize Your Layout
-          </Typography>
-          <Typography className={classNames(classes.customizeDescription)}>
-            We set this ordering system to default to the most common layout.
-            Please make any of the changes you would like and click 'Apply'
           </Typography>
           <Grid item sm={12}>
             <Typography className={classNames(classes.customizeTextLabel, classes.colorCustomizeTitle)}>

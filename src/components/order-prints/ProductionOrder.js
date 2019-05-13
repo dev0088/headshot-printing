@@ -128,7 +128,7 @@ class ProductionOrder extends Component {
             <Grid item sm={12} className={classNames(classes.colorCustomizeTitle)}>
               { `Please tell us what you would like` }
             </Grid>
-            <Grid item sm={10} xsOffset={2} >
+            <Grid item sm={10} xsoffset={2} >
               <FormControlLabel
                 control={
                   <Radio

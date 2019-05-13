@@ -32,6 +32,8 @@ export const MoveNameList = [
   {caption: "Higher Top", id: "Higher Top"},
   {caption: "More Left", id: "More Left"},
   {caption: "Less Left", id: "Less Left"},
+  {caption: "Left", id: "Left"},
+  {caption: "Right", id: "Right"}
 ];
 export const TransformSyle = {
   "Uppercase" : "uppercase",

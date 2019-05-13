@@ -428,7 +428,7 @@ export const materialStyles = theme => ({
     textAlign: 'left',
   },
   rightText: {
-    textAlign: 'right',
+    textAlign: 'center',
   },
   fullWidth: {
     width: '100%'
@@ -487,6 +487,7 @@ export const materialStyles = theme => ({
   },
   nextButton: {
     margin: theme.spacing.unit,
+    justifyContent: 'center'
   },
   orderRadioGroup: {
     margin: `${theme.spacing.unit}px 0`,

@@ -106,11 +106,26 @@ class VerticalBorderless extends Component {
       }
     } else if (name === 'Less Left') {
       if (newCaptionStyle['left']) {
+        console.log('leftL');
         newCaptionStyle['left'] -= 10;
       } else {
-        newCaptionStyle['right'] -= 10; 
+        console.log('leftL');
+        newCaptionStyle['left'] -= 10; 
       }
-    }
+    } else if (name === 'Left') { 
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] = 10;
+      } else {
+        newCaptionStyle['right'] = 250;
+      }
+    } else if (name === 'Right') {
+      if (newCaptionStyle['left']) {
+        newCaptionStyle['left'] = 250;
+      } else {
+        newCaptionStyle['right'] = 10;
+      }
+    } 
+    
     this.setState({captionStyle: newCaptionStyle, moveName: name}, () => {
       this.props.onChange(this.state);
     });
@@ -159,11 +174,7 @@ class VerticalBorderless extends Component {
         <Grid item sm={6} className={classNames(classes.descriptionContainer)}>
           <Typography className={classNames(classes.customizeTitle)}>
             Customize Your Layout
-          </Typography>
-          <Typography className={classNames(classes.customizeDescription)}>
-            We set this ordering system to default to the most common layout.
-            Please make any of the changes you would like and click 'Apply'
-          </Typography>
+          </Typography>          
           <Grid item sm={12}>
             <Typography className={classNames(classes.customizeTextLabel, classes.colorCustomizeTitle)}>
               { `Enter your name as it will appear on your print` }
