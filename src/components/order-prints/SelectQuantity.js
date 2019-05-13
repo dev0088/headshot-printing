@@ -78,9 +78,6 @@ class SelectQuantity extends Component {
             </Select>
           </FormControl>
         </Grid>
-<<<<<<< HEAD
-        <Grid item xl={5} lg={5} md={3} sm={2} xs={1} />
-=======
         <Grid item xl={3} lg={3} md={2} sm={1} xs={1} />
         <Grid item xs={12} className={classes.centerText}>
           <Button
@@ -114,7 +111,6 @@ class SelectQuantity extends Component {
             )
           }
         </Grid> 
->>>>>>> 473b9071231e141448979543944211fb25cca57d
       </Grid>
     );
   }
