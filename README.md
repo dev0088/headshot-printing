@@ -20,8 +20,14 @@ $ yarn install
 $ yarn start
 ```
 
-### Deployment with Docker
+### Deploy with Docker on production server
 ```
+$ docker stop headshot-printing
+$ echo y | docker container prune
+$ echo y | docker image prune
+
+$ docker pull valeriia333/headshot-printing
+
 $ docker network create --subnet=172.17.0.0/16 headshotnet
 
 $  docker run -d \
