@@ -9,9 +9,8 @@ export const getSteps = () => {
     '1. Select quantity', 
     '2. Input your info', 
     '3. Design', 
-    '4. Order electronic',
-    '5. Review',
-    '6. Payment'
+    '4. Review',
+    '5. Payment'
   ];
 };
 

@@ -280,9 +280,15 @@ class OrderPrints extends Component {
                 onChange={this.handleChange}
                 state={this.state}
                 handleBack = {this.handleBack}
-                handleNext = {this.handleNext} />
-              <ProductionOrder onChange={this.handleChange} />
-              <ProductProof data={this.state} onChange={this.handleChange} />
+                handleNext = {this.handleNext} 
+              />
+          
+              <ProductProof
+                data={this.state} onChange={this.handleChange}
+                state={this.state}
+                handleBack = {this.handleBack}
+                handleNext = {this.handleNext} 
+              />
             </SwipeableViews>
           ) : (
             <div/>
@@ -306,7 +312,8 @@ class OrderPrints extends Component {
         {/* <div className={classNames(classes.orderPrintsSteperLayout)}> */}
         <div className={classNames(classes.orderContainer)}>
           <Grid container className={classNames(classes.orderPrintsSteperLayout, )}>
-            <Grid item lg={1} md={1} sm={12} xs={12}/>
+            <Grid item lg={1} md={1} sm={12} xs={12}>
+            </Grid>
             <Grid item lg={10} md={10} sm={12} xs={12}>
               <Grid container className={classNames(classes.steperGridContainer)}>
                 <Grid item xs={6}>
@@ -319,7 +326,7 @@ class OrderPrints extends Component {
                     variant="outlined"
                     color="primary"
                     size="small"
-                    disabled={step === 0}
+                    disabled={step === 0 || step === 1 || step ===2 || step ===3}
                     className={classes.nextButton}
                     onClick={this.handleBack}
                   >
@@ -328,7 +335,7 @@ class OrderPrints extends Component {
                   {
                     ((step === appUtils.getSteps().length - 1) && !paid) ? (
                       <StripeCheckoutButton 
-                        headshot={headshot} 
+                        headshot={headshot}
                         amount={totalPrice} 
                         onCheckout={this.handleCheckout} 
                         onPayment={this.handlePayment}
@@ -338,6 +345,7 @@ class OrderPrints extends Component {
                       variant="contained"
                       color="primary"
                       size="small"
+                      disabled={step === 0 || step === 1 || step ===2 || step ===3}
                       className={classes.nextButton}
                       onClick={this.handleNext}
                     >

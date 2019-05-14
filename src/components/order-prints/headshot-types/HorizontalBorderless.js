@@ -108,13 +108,13 @@ class HorizontalBorderless extends Component {
       }
     } else if (name === 'More Left') {
       if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] += 10;
+        newCaptionStyle['left'] -= 10;
       } else {
         newCaptionStyle['right'] += 10; 
       }
     } else if (name === 'Less Left') {
       if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] -= 10;
+        newCaptionStyle['left'] += 10;
       } else {
         newCaptionStyle['right'] -= 10; 
       }

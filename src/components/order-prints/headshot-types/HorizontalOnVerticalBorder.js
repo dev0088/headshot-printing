@@ -58,6 +58,7 @@ class HorizontalOnVerticalBorder extends Component {
   handleChangeFont = (family) => {
     const { captionStyle } = this.state;
     let newCaptionStyle = Object.assign({}, captionStyle);
+    console.log(newCaptionStyle)
     newCaptionStyle.fontFamily = family;
     this.setState({captionStyle: newCaptionStyle}, () => {
       this.props.onChange(this.state);
@@ -94,7 +95,7 @@ class HorizontalOnVerticalBorder extends Component {
   handleMoveNameStyle = (name) => {
     const { captionStyle } = this.state;
     let newCaptionStyle = Object.assign({}, captionStyle);
-    console.log('name',captionStyle);
+    console.log('name',newCaptionStyle);
     if (name === 'Lower Top') {
       if (newCaptionStyle['top']) {
         newCaptionStyle['top'] -= 10;
@@ -108,30 +109,14 @@ class HorizontalOnVerticalBorder extends Component {
         newCaptionStyle['bottom'] += 10; 
       }
     } else if (name === 'More Left') {
-      if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] += 10;
-      } else {
-        newCaptionStyle['right'] += 10; 
-      }
+        newCaptionStyle['left'] -= 10;      
     } else if (name === 'Less Left') {
-      if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] -= 10;
-      } else {
-        newCaptionStyle['right'] -= 10; 
-      }
+        newCaptionStyle['left'] += 10;
     } else if (name === 'Left') { 
-      if (newCaptionStyle['left']) {
         newCaptionStyle['left'] = 10;
-      } else {
-        newCaptionStyle['right'] = 250;
-      }
     } else if (name === 'Right') {
-      if (newCaptionStyle['left']) {
         newCaptionStyle['left'] = 250;
-      } else {
-        newCaptionStyle['right'] = 10;
-      }
-    } 
+    }
     this.setState({captionStyle: newCaptionStyle, moveName: name}, () => {
       this.props.onChange(this.state);
     });

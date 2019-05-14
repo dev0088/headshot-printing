@@ -100,17 +100,15 @@ class VerticalBorderless extends Component {
       }
     } else if (name === 'More Left') {
       if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] += 10;
+        newCaptionStyle['left'] -= 10;
       } else {
         newCaptionStyle['right'] += 10; 
       }
     } else if (name === 'Less Left') {
       if (newCaptionStyle['left']) {
-        console.log('leftL');
-        newCaptionStyle['left'] -= 10;
+        newCaptionStyle['left'] += 10;
       } else {
-        console.log('leftL');
-        newCaptionStyle['left'] -= 10; 
+        newCaptionStyle['right'] -= 10; 
       }
     } else if (name === 'Left') { 
       if (newCaptionStyle['left']) {

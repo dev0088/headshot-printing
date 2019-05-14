@@ -93,7 +93,7 @@ class HorizontalWithBorder extends Component {
 
   handleMoveNameStyle = (name) => {
     const { captionStyle } = this.state;
-    let newCaptionStyle = Object.assign({}, captionStyle);;
+    let newCaptionStyle = Object.assign({}, captionStyle);
     if (name === 'Lower Top') {
       if (newCaptionStyle['top']) {
         newCaptionStyle['top'] -= 10;
@@ -107,32 +107,14 @@ class HorizontalWithBorder extends Component {
         newCaptionStyle['bottom'] += 10; 
       }
     } else if (name === 'More Left') {
-      if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] += 10;
-      } else {
-        newCaptionStyle['right'] += 10; 
-      }
+      newCaptionStyle['left'] -= 10;      
     } else if (name === 'Less Left') {
-      if (newCaptionStyle['left']) {
-        newCaptionStyle['left'] -= 10;
-      } else {
-        newCaptionStyle['right'] -= 10; 
-      }
+        newCaptionStyle['left'] += 10;
     } else if (name === 'Left') { 
-      if (newCaptionStyle['left']) {
         newCaptionStyle['left'] = 10;
-      } else {
-        newCaptionStyle['right'] = 350;
-      }
     } else if (name === 'Right') {
-      if (newCaptionStyle['left']) {
         newCaptionStyle['left'] = 350;
-        console.log('left');
-      } else {
-        newCaptionStyle['right'] = 10;
-        console.log('right');
-      }
-    } 
+    }
     this.setState({captionStyle: newCaptionStyle, moveName: name}, () => {
       this.props.onChange(this.state);
     });

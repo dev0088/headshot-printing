@@ -200,7 +200,7 @@ class HeadshotHeader extends Component {
                 onClick={this.handleDrawerOpen}
                 className={classNames(classes.drawerMenuButton, open && classes.hide)}
               >
-                <MenuIcon />
+                <MenuIcon>headshotprinting.com</MenuIcon>
               </IconButton>
             </Hidden>
             <Hidden only={['md', 'sm', 'xs']}>
