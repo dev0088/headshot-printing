@@ -30,7 +30,7 @@ $ docker pull valeriia333/headshot-printing
 
 $ docker network create --subnet=172.17.0.0/16 headshotnet
 
-$  docker run -d \
+$ docker run -d \
 	-p 3000:3000 \
 	--net headshotnet \
 	--ip 172.20.0.3 \
