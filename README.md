@@ -26,7 +26,7 @@ $ docker stop headshot-printing
 $ echo y | docker container prune
 $ echo y | docker image prune
 
-$ docker pull valeriia333/headshot-printing
+$ docker pull ninjadev999/headshot-printing
 
 $ docker network create --subnet=172.17.0.0/16 headshotnet
 
